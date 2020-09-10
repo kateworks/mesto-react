@@ -1,49 +1,63 @@
-//--------------------------------------------------------------------------------------
-// Модуль PopupWithForm.js
-// Класс PopupWithForm
-//--------------------------------------------------------------------------------------
+import React, { useEffect, useCallback } from 'react';
 
-import Popup from "./Popup.js";
+function PopupWithForm(props) {
+  const openClass = props.isOpen && 'popup_opened';
 
-export default class PopupWithForm extends Popup {
-  constructor (selector, classes, { form, input }, submitHandler) {
-    super(selector, classes);
-    this._form = this._popup.querySelector(form);
-    this._inputList = Array.from(this._form.querySelectorAll(input));
-    this._submitHandler = submitHandler;
-  }
+  const handleCloseClick = props.onClose;
 
-  _emptyInputs() {
-    this._inputList.forEach((input) => {
-      input.value = '';
-    });
-  }
+  const handleEscPress = useCallback((evt) => {
+    if (evt.key === 'Escape') handleCloseClick();
+  }, [handleCloseClick]);
 
-  _getInputValues() {
-    const inputValues = {};
-    this._inputList.forEach((input) => {
-      inputValues[input.name] = input.value;
-    });
-    return inputValues;
-  }
+  useEffect(() => {
+    if (props.isOpen) {
+      document.addEventListener('keyup', handleEscPress);
+    } else {
+      document.removeEventListener('keyup', handleEscPress);
+    };
+  }, [props.isOpen, handleEscPress]);
 
-  setEventListeners() {
-    super.setEventListeners();
-    this._popup.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      this._submitHandler(this._getInputValues()); 
-    });
-  }
+  const handleOverlayClick = (evt) => {
+    if (evt.target === evt.currentTarget) handleCloseClick();
+  };
 
-  open(values = {}) {
-    this._inputList.forEach((input) => {
-      input.value = values[input.name] || '';
-    });
-    super.open();
-  }
+  return(
+    <div 
+      className={`popup popup_content_${props.name} ${openClass}`}
+      onClick={handleOverlayClick}
+    >
+    <div className="popup__container">
 
-  close() {
-    super.close();
-    this._emptyInputs();
-  }
+      <button 
+        type="button" 
+        className="popup__btn popup__btn_action_close shaded"
+        title="Закрыть форму без сохранения данных"
+        onClick={handleCloseClick} 
+      />
+
+      <form 
+        name={props.name}
+        className={`popup__form popup__form_size_${props.size}`}
+        onSubmit={props.onSubmit} 
+      >
+          <h3 className="popup__heading">
+            {props.title}
+          </h3>
+
+          {props.children}
+
+          <button 
+            type="submit" value="Создать" 
+            disabled={props.submitDisabled}
+            className="popup__btn popup__btn_action_submit"
+          >
+              {props.submitName}
+          </button>
+
+      </form>
+    </div>
+  </div>  
+  );
 }
+
+export default PopupWithForm;

@@ -1,150 +1,240 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
+import ImagePopup from './ImagePopup';
+import ConfirmPopup from './ConfirmPopup';
+
+import api from '../utils/api';
+import profileAvatar from '../images/profile-avatar.jpg';
+import {initialCards} from '../utils/cards-init';
+
 function App() {
+  const [currentUser, setCurrentUser] = useState({
+    _id: 0, 
+    name: 'Екатерина',
+    about: '(без доступа в сеть)',
+    avatar: profileAvatar,
+  });
+
+  const [cards, setCards] = useState(initialCards);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [deletedCard, setDeletedCard] = useState(null);
+
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+
+  const [profileSubmitName, setProfileSubmitName] = useState('Сохранить');
+  const [avatarSubmitName, setAvatarSubmitName] = useState('Сохранить');
+  const [addPlaceSubmitName, setAddPlaceSubmitName] = useState('Создать');
+  const [deleteCardSubmitName, setDeleteCardSubmitName] = useState('Да');
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Читаем данные с сервера
+  useEffect(() => {
+    setIsLoading(true);
+
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([userData, cardsData]) => {
+
+      setCurrentUser({
+        _id: userData._id,
+        name: userData.name, 
+        about: userData.about,
+        avatar: userData.avatar
+      });
+
+      setCards(cardsData.map(item => {
+        return {
+          title: item.name, 
+          link: item.link, 
+          likes: item.likes, 
+          owner: item.owner._id,
+          id: item._id
+        };
+      }));
+    })
+    .catch((error) => {
+      console.log(`Ошибка загрузки данных: ${error}.`);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+  }, []);
+
+  // Обновление информации о пользователе на сервере
+  const handleUpdateUser = ({name, info}) => {
+    setProfileSubmitName('Сохранение...');
+    api.patchUserProfile({name, info})
+      .then((res) => {
+        console.log(`Информация о пользователе сохранена.`);
+        setCurrentUser({...currentUser, name: res.name, about: res.about}); 
+        setEditProfilePopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`Невозможно сохранить данные на сервере. ${err}.`);
+      })
+      .finally(() => { 
+        setProfileSubmitName('Сохранить');
+      });  
+  };
+
+  // Обновление пользовательского аватара на сервере
+  const handleUpdateAvatar = (newAvatarLink) => {
+    setAvatarSubmitName('Сохранение...');
+    api.patchNewAvatar({avatar: newAvatarLink})
+    .then((res) => {
+      setCurrentUser({...currentUser, avatar: res.avatar});  
+      setEditAvatarPopupOpen(false);
+    })
+    .catch((err) => {
+      console.log(`Невозможно обновить аватар на сервере. ${err}.`);
+    })
+    .finally(() => {
+      setAvatarSubmitName('Сохранить');
+    });
+  };
+
+  const handleCardLike = (card) => {
+    const isLiked = (card.likes.some(
+      likeAuthor => likeAuthor._id === currentUser._id
+    ));
+    const likeAction = isLiked ? 'удалить' : 'поставить';
+    const likeFunc = isLiked ? id => api.unlikeCard(id) : id => api.likeCard(id);
+
+    // Ставим или удаляем лайк в зависимости от его текущего состояния
+    likeFunc(card.id)
+      .then((res) => {
+        // Если запрос выполнен успешно, создаем новую карточку
+        const changedCard = {
+          title: res.name, 
+          link: res.link, 
+          likes: res.likes, 
+          owner: res.owner._id,
+          id: res._id
+        };
+        // Выполняем замену карточки
+        const newCards = cards.map((currentCard) => (
+          currentCard.id === card.id ? changedCard : currentCard
+        ));
+        // Обновляем состояние 
+        setCards(newCards);
+      })
+      .catch((err) => {
+        console.log(`Невозможно ${likeAction} лайк. Ошибка ${err}.`);
+      });
+  };
+
+  // Удаление карточки
+  const handleDeleteButtonClick = (card) => {
+    setDeletedCard(card);
+  };
+
+  const handleCardDelete = (card) => {
+    setDeleteCardSubmitName('Удаление...');
+    api.deleteCard(card.id)
+      .then((res) => {
+        // Исключаем из массива удаленную карточку
+        const newCards = cards.filter((currentCard) => (
+          currentCard.id !== card.id
+        ));
+        // Обновляем состояние 
+        setCards(newCards);
+        console.log(`Карточка ${card.id} удалена.`); 
+        setDeletedCard(null);
+      })
+      .catch((err) => {
+        console.log(`Невозможно удалить карточку. Ошибка ${err}.`);
+      })
+      .finally(() => {
+        setDeleteCardSubmitName('Да');
+      });
+  };
+
+  const handleAddPlace = (newPlace) => {
+    setAddPlaceSubmitName('Сохранение...');
+    api.postNewCard({name: newPlace.title, link: newPlace.link})
+      .then((res) => {
+        const newCard = { 
+          title: res.name, 
+          link: res.link, 
+          likes: res.likes, 
+          owner: res.owner._id, 
+          id: res._id
+        };
+        setCards([newCard, ...cards]);
+        setAddPlacePopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`Невозможно сохранить карточку на сервере. Ошибка ${err}.`);
+      })
+      .finally(() => {
+        setAddPlaceSubmitName('Создать');
+      });
+  };
+
   return (
-    <div className="App">
+    <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main />
+        <Main 
+          onEditProfile={() => setEditProfilePopupOpen(true)}
+          onAddPlace={() => setAddPlacePopupOpen(true)} 
+          onEditAvatar={() => setEditAvatarPopupOpen(true)}
+          onCardClick={(card) => setSelectedCard(card)}
+          onCardLike={handleCardLike}
+          onCardDelete={handleDeleteButtonClick}
+          cards={cards}
+          isLoading={isLoading}
+        />
         <Footer />
-        {/* Всплывающее окно редактирования профиля */}
-        <div className="popup popup_content_profile">
-          <div className="popup__container">
-            <button type="button" className="popup__btn popup__btn_action_close shaded"
-              title="Закрыть форму без сохранения данных">
-            </button>
-            <form className="popup__form popup__form_size_l" name="edit-profile">
-              <h3 className="popup__heading">Редактировать профиль</h3>
-              <label className="popup__field">
-                <input type="text" id="name" name="name" 
-                    maxLength="40" minLength="2" 
-                    className="popup__item popup__item_type_name" 
-                    placeholder="Имя" required/>
-                <span className="popup__error" id="name-error"></span>
-              </label>
-              <label className="popup__field">
-                <input type="text" id="info" name="info" 
-                    maxLength="200" minLength="2" 
-                    className="popup__item popup__item_type_info" 
-                    placeholder="О себе" required/>
-                <span className="popup__error" id="info-error"></span>
-              </label>
-              <button type="submit" value="Сохранить" 
-                className="popup__btn popup__btn_action_submit">
-                  Сохранить  
-              </button>
-            </form>
-          </div>
-        </div>
 
-        {/* Всплывающее окно изменения аватара */}
-        <div className="popup popup_content_avatar">
-          <div className="popup__container">
-            <button type="button" className="popup__btn popup__btn_action_close shaded"
-              title="Закрыть форму без сохранения данных">
-            </button>
-            <form className="popup__form popup__form_size_m" name="edit-profile">
-              <h3 className="popup__heading">Обновить аватар</h3>
+        {/* Просмотр фотографии */}
+        { selectedCard && 
+          <ImagePopup 
+            card={selectedCard} 
+            onClose={ () => setSelectedCard(null) }
+          /> 
+        }
+        {/* Редактирование профиля пользователя */}
+        <EditProfilePopup 
+          submitName={profileSubmitName}
+          isOpen={isEditProfilePopupOpen} 
+          onUpdateUser={handleUpdateUser}
+          onClose={() => setEditProfilePopupOpen(false)} 
+        />
 
-              <label className="popup__field">
-                <input type="url" id="avatar" name="avatar" pattern="https?://.+" 
-                  className="popup__item popup__item_type_info" 
-                  placeholder="Ссылка на картинку" required/>
-                  <span className="popup__error" id="avatar-error"></span>
-              </label>
+        {/* Обновление аватара пользователя */}
+        <EditAvatarPopup 
+          submitName={avatarSubmitName}
+          isOpen={isEditAvatarPopupOpen} 
+          onUpdateAvatar={handleUpdateAvatar}
+          onClose={() => setEditAvatarPopupOpen(false)} 
+        />
 
-              <button type="submit" value="Сохранить" 
-                className="popup__btn popup__btn_action_submit">
-                  Сохранить  
-              </button>
-            </form>
-          </div>
-        </div>
+        {/* Добавление карточки */}
+        <AddPlacePopup
+          submitName={addPlaceSubmitName}
+          isOpen={isAddPlacePopupOpen} 
+          onAddPlace={handleAddPlace}
+          onClose={() => setAddPlacePopupOpen(false)} 
+        />
 
-        {/* Всплывающее окно добавления фотографии */}    
-        <div className="popup popup_content_card">
-          <div className="popup__container">
-            <button type="button" className="popup__btn popup__btn_action_close shaded"
-              title="Закрыть форму без сохранения данных">
-            </button>
-            <form className="popup__form popup__form_size_l" name="add-place">
-              <h3 className="popup__heading">Новое место</h3>
-
-              <label className="popup__field">
-                <input type="text" id="title" name="title" maxLength="30" minLength="1" 
-                  className="popup__item popup__item_type_name" 
-                  placeholder="Название" required/>
-                <span className="popup__error" id="title-error"></span>
-              </label>
-
-              <label className="popup__field">
-                <input type="url" id="link" name="link" pattern="https?://.+" 
-                  className="popup__item popup__item_type_info" 
-                  placeholder="Ссылка на картинку" required/>
-                  <span className="popup__error" id="link-error"></span>
-              </label>
-              
-              <button type="submit" value="Создать" 
-                className="popup__btn popup__btn_action_submit">
-                  Создать
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Всплывающее окно просмотра фотографии    */}
-        <div className="popup popup_content_image">
-          <div className="popup__image-box">
-            <button type="button" className="popup__btn popup__btn_action_close shaded"
-              title="Закрыть окно просмотра">
-            </button>
-
-            <figure className="popup__figure">
-              <img src="#" className="popup__image" alt="Image"/>
-              <figcaption className="popup__image-caption">Image Caption</figcaption>
-            </figure>
-          </div>
-        </div>
-
-        {/* Всплывающее окно подтверждения      */}
-        <div className="popup popup_content_confirm">
-          <div className="popup__container">
-            <button type="button" className="popup__btn popup__btn_action_close shaded"
-              title="Закрыть окно без подтверждения">
-            </button>
-            <form className="popup__form popup__form_size_s" name="confirm">
-              <h3 className="popup__heading">Вы уверены?</h3>
-              <button type="submit" value="Да" 
-                className="popup__btn popup__btn_action_submit">
-                  Да  
-              </button>
-            </form>
-          </div>
-        </div>
+        <ConfirmPopup 
+          submitName={deleteCardSubmitName}
+          card={deletedCard}
+          onConfirm={handleCardDelete}
+          onClose={() => setDeletedCard(null)}
+        />
       </div>
-
-      <template id="card-template">
-        <li className="card">
-          <img src="#" alt="_" className="card__image"/>
-          <div className="card__description">
-            <h2 className="card__title"></h2>
-            <div className="card__like-group">
-              <button className="card__btn card__btn_action_like shaded" 
-                title="Нравится">
-              </button>
-              <span className="card__like-num">0</span>
-            </div>
-          </div>
-          <button className="card__btn card__btn_action_del shaded"
-            title="Удалить">
-          </button>
-        </li>
-      </template>
-
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 

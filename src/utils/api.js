@@ -1,9 +1,9 @@
 //--------------------------------------------------------------------------------------
-// Модуль Api.js
+// Модуль api.js
 // Класс Api
 //--------------------------------------------------------------------------------------
 
-export default class Api {
+class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
@@ -82,3 +82,13 @@ export default class Api {
   }
 
 }
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-14',
+  headers: {
+    authorization: '963ba2cb-ffe5-4800-9828-03d0e9a57e68',
+    'Content-Type': 'application/json'
+  }
+});
+
+export default api;
