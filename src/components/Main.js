@@ -1,60 +1,29 @@
 import React from 'react';
 import profileAvatar from '../images/profile-avatar.jpg';
-import {
-  profileData, popupSelectors, 
-  popupData, btnEditProfileSelector,
-} from '../utils/constants.js';
 
 
-function Main() {
-
-  function handleEditAvatarClick() {
-    // const avatar = userProfile.getUserAvatar();
-    // popupChangeAvatar.open({avatar});
-    // formChangeAvatarValidation.setInitialState();
-    document.querySelector(popupSelectors.changeAvatar).classList.add(popupData.openedClass);
-  }
-
-  React.useEffect(() => {
-
-    function handleEditProfileClick() {
-      //popupEditProfile.open(userProfile.getUserInfo());
-      //formEditProfileValidation.setInitialState();
-      document.querySelector(popupSelectors.editProfile).classList.add(popupData.openedClass);
-    }
-
-    function handleAddPlaceClick() {
-
-    }
-
-    const btnChangeAvatar = document.querySelector(profileData.avatarSelector);
-    const btnEditProfile = document.querySelector(btnEditProfileSelector);
-
-    btnChangeAvatar.addEventListener('click', handleEditAvatarClick);
-    btnEditProfile.addEventListener('click', handleEditProfileClick);
-    
-    
-  });
-
+function Main(props) {
 
   return(
     <main className="content">
       <section className="profile">
 
-        <div className="profile__avatar">
-          <img src={profileAvatar} alt="Аватар профиля" 
-            title="Изменить аватар профиля" className="profile__image"/>
+        <div className="profile__avatar" onClick={props.onEditAvatar}>
+          <img className="profile__image" src={profileAvatar} 
+            alt="Аватар профиля" title="Изменить аватар профиля"/>
         </div>
         
         <div className="profile__description">
           <h1 className="profile__name">Екатерина Пожидаева</h1>
           <button className="profile__btn profile__btn_action_edit shaded"
-            title="Редактировать профиль">
+            title="Редактировать профиль" onClick={props.onEditProfile}>
           </button>
           <p className="profile__work">Студентка Яндекс.Практикума</p>
         </div>
 
-        <button className="profile__btn profile__btn_action_add shaded"
+        <button 
+          className="profile__btn profile__btn_action_add shaded" 
+          onClick={props.onAddPlace} 
           title="Добавить фотографию">
         </button>
 

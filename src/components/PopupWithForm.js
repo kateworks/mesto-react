@@ -1,49 +1,44 @@
-//--------------------------------------------------------------------------------------
-// Модуль PopupWithForm.js
-// Класс PopupWithForm
-//--------------------------------------------------------------------------------------
+import React from 'react';
 
-import Popup from "./Popup.js";
-
-export default class PopupWithForm extends Popup {
-  constructor (selector, classes, { form, input }, submitHandler) {
-    super(selector, classes);
-    this._form = this._popup.querySelector(form);
-    this._inputList = Array.from(this._form.querySelectorAll(input));
-    this._submitHandler = submitHandler;
+class PopupWithForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false,
+    };
   }
 
-  _emptyInputs() {
-    this._inputList.forEach((input) => {
-      input.value = '';
-    });
-  }
+  render() {
 
-  _getInputValues() {
-    const inputValues = {};
-    this._inputList.forEach((input) => {
-      inputValues[input.name] = input.value;
-    });
-    return inputValues;
-  }
+    return(
+      <div className={`popup popup_content_${this.props.name}`}>
+      <div className="popup__container">
 
-  setEventListeners() {
-    super.setEventListeners();
-    this._popup.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      this._submitHandler(this._getInputValues()); 
-    });
-  }
+        <button 
+          type="button" 
+          className="popup__btn popup__btn_action_close shaded"
+          title="Закрыть форму без сохранения данных">
+        </button>
 
-  open(values = {}) {
-    this._inputList.forEach((input) => {
-      input.value = values[input.name] || '';
-    });
-    super.open();
-  }
+        <form 
+          className={`popup__form popup__form_size_${this.props.size}`} 
+          name={this.props.name}>
 
-  close() {
-    super.close();
-    this._emptyInputs();
+            <h3 className="popup__heading">{this.props.title}</h3>
+
+            {this.props.children}
+
+            <button 
+              type="submit" value="Создать" 
+              className="popup__btn popup__btn_action_submit">
+                {this.props.submitName}
+            </button>
+
+        </form>
+      </div>
+    </div>  
+    );
   }
 }
+
+export default PopupWithForm;
