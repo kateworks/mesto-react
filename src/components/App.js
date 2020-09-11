@@ -4,11 +4,6 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 
-import {
-  popupSelectors, 
-  popupData,
-} from '../utils/constants.js';
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -19,27 +14,24 @@ class App extends React.Component {
     };
   }
 
+  closeAllPopups = () => {
+    this.setState({
+      isEditProfilePopupOpen: false,
+      isAddPlacePopupOpen: false,
+      isEditAvatarPopupOpen: false,      
+    });
+  }
+
   handleEditAvatarClick = () => {
     this.setState({
       isEditAvatarPopupOpen: true,
     });
-    console.log(this.state.isEditAvatarPopupOpen);   
   }
 
   handleEditProfileClick = () => {
-    //popupEditProfile.open(userProfile.getUserInfo());
-    //formEditProfileValidation.setInitialState();
-
-    const popupEditProfile = document.querySelector(popupSelectors.editProfile);
-    popupEditProfile.classList.add(popupData.openedClass);
   }
 
   handleAddPlaceClick = () => {
-    //popupNewCard.open();
-    //formNewCardValidation.setInitialState();
-    const popupAddPlace = document.querySelector(popupSelectors.createCard);
-    popupAddPlace.classList.add(popupData.openedClass);
-    
   }
 
   render() {
@@ -54,7 +46,7 @@ class App extends React.Component {
           />
           <Footer />
 
-          <PopupWithForm 
+          {/* <PopupWithForm 
             name="profile" size="l" submitName="Сохранить"
             title="Редактировать профиль" 
             children={
@@ -75,25 +67,23 @@ class App extends React.Component {
                 </label>
               </>
             } 
-          />
-
-          {this.state.isEditAvatarPopupOpen && 
-            <PopupWithForm 
-              name="avatar" size="m" submitName="Сохранить"
-              title="Обновить аватар" 
-              children={
-                <>
-                  <label className="popup__field">
-                    <input type="url" id="avatar" name="avatar" pattern="https?://.+" 
-                      className="popup__item popup__item_type_info" 
-                      placeholder="Ссылка на картинку" required/>
-                      <span className="popup__error" id="avatar-error"></span>
-                  </label>
-                </>
-              } 
-          />}
+          /> */}
 
           <PopupWithForm 
+            name="avatar" size="m" submitName="Сохранить"
+            title="Обновить аватар" 
+            isOpen={this.handleEditAvatarClick} 
+            onClose={this.closeAllPopups}
+          >
+            <label className="popup__field">
+              <input type="url" id="avatar" name="avatar" pattern="https?://.+" 
+                className="popup__item popup__item_type_info" 
+                placeholder="Ссылка на картинку" required/>
+                <span className="popup__error" id="avatar-error"></span>
+            </label>
+          </PopupWithForm>
+
+          {/* <PopupWithForm 
             name="card" size="l" submitName="Создать"
             title="Новое место" 
             children={
@@ -113,13 +103,13 @@ class App extends React.Component {
                 </label>
             </>
             }
-          />
+          /> */}
 
-          <PopupWithForm 
+          {/* <PopupWithForm 
             name="confirm" size="s" submitName="Да"
             title="Вы уверены?" 
             children=""
-          />
+          /> */}
   
         </div>
   
