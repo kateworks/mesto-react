@@ -1,53 +1,42 @@
 import React from 'react';
 
-class PopupWithForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: this.props.isOpen,
-    };
+function PopupWithForm(props) {
+
+  const handleCloseClick = () => {
+    props.onClose();
   }
 
-  handleClick = () => {
-    this.setState({
-      isOpen: false,
-    });
-    // this.props.onClose();
-  }
+  const openClass = props.isOpen && 'popup_opened';
 
-  render() {
-    const openClass = this.state.isOpen ? 'popup_opened' : '';
+  return(
+    <div className={`popup popup_content_${props.name} ${openClass}`}>
+    <div className="popup__container">
 
-    return(
-      <div className={`popup popup_content_${this.props.name} ${openClass}`}>
-      <div className="popup__container">
+      <button 
+        type="button" 
+        className="popup__btn popup__btn_action_close shaded"
+        title="Закрыть форму без сохранения данных"
+        onClick={handleCloseClick}>
+      </button>
 
-        <button 
-          type="button" 
-          className="popup__btn popup__btn_action_close shaded"
-          title="Закрыть форму без сохранения данных"
-          onClick={this.handleClick}>
-        </button>
+      <form 
+        className={`popup__form popup__form_size_${props.size}`} 
+        name={props.name}>
 
-        <form 
-          className={`popup__form popup__form_size_${this.props.size}`} 
-          name={this.props.name}>
+          <h3 className="popup__heading">{props.title}</h3>
 
-            <h3 className="popup__heading">{this.props.title}</h3>
+          {props.children}
 
-            {this.props.children}
+          <button 
+            type="submit" value="Создать" 
+            className="popup__btn popup__btn_action_submit">
+              {props.submitName}
+          </button>
 
-            <button 
-              type="submit" value="Создать" 
-              className="popup__btn popup__btn_action_submit">
-                {this.props.submitName}
-            </button>
-
-        </form>
-      </div>
-    </div>  
-    );
-  }
+      </form>
+    </div>
+  </div>  
+  );
 }
 
 export default PopupWithForm;
