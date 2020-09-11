@@ -7,7 +7,8 @@ import PopupWithForm from './PopupWithForm';
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);     
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false); 
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);
@@ -97,23 +98,6 @@ function App() {
         /> */}
       </div>
 
-      <template id="card-template">
-        <li className="card">
-          <img src="#" alt="_" className="card__image"/>
-          <div className="card__description">
-            <h2 className="card__title"></h2>
-            <div className="card__like-group">
-              <button className="card__btn card__btn_action_like shaded" 
-                title="Нравится">
-              </button>
-              <span className="card__like-num">0</span>
-            </div>
-          </div>
-          <button className="card__btn card__btn_action_del shaded"
-            title="Удалить">
-          </button>
-        </li>
-      </template>
     </div>
   );
 }
