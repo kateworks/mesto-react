@@ -9,7 +9,6 @@ function Main(props) {
   const [userName, setUserName] = useState('Екатерина Пожидаева');
   const [userDescription, setUserDescription] = useState('Студентка Яндекс.Практикума');
   const [userAvatar, setUserAvatar] = useState(profileAvatar);
-  const [userId, setUserId] = useState(0);
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -19,7 +18,6 @@ function Main(props) {
       setUserName(res.name);
       setUserDescription(res.about);
       setUserAvatar(res.avatar);
-      setUserId(res._id);
     })
     .catch((err) => {
       console.log(`Невозможно прочитать профиль пользователя. ${err}.`);
@@ -76,7 +74,7 @@ function Main(props) {
       <section className="photo-grid">
         <ul className="photo-grid__list">
           {cards.map((card) => (
-            <Card onClick={props.onCardClick} card={card}/>
+            <Card onClick={props.onCardClick} card={card} key={card.id}/>
           ))}          
         </ul>  
       </section>

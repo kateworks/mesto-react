@@ -7,7 +7,7 @@ function Card({card, onClick}) {
   }
 
   return(
-    <li className="card" key={card.id}>
+    <li className="card">
       <img 
         className="card__image" 
         src={card.link} 
