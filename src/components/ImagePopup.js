@@ -22,7 +22,7 @@ function ImagePopup({card, onClose}) {
           <img 
             src={card ? card.link : '#'} 
             className="popup__image" 
-            alt={card ?card.title : 'title'}
+            alt={card ? card.title : 'title'}
           />
           <figcaption className="popup__image-caption">
             {card ? card.title : 'caption'}
