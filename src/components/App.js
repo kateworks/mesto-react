@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -22,6 +23,10 @@ function App() {
     setAddPlacePopupOpen(true);
   }
 
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+  }
+
   return (
     <div className="App">
       <div className="page">
@@ -30,8 +35,12 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick} 
           onEditAvatar={handleEditAvatarClick}
+          onCardClick={(card) => {handleCardClick(card);}}
         />
         <Footer />
+
+        <ImagePopup card={selectedCard} 
+          onClose={() => {setSelectedCard(null);}}/>
 
         <PopupWithForm name="profile" 
           size="l" submitName="Сохранить" title="Редактировать профиль" 

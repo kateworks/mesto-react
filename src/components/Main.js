@@ -43,13 +43,6 @@ function Main(props) {
         setCards(initialCards);
       })
       .finally(() => {
-          // Создание контейнера
-          // cardsList = new Section(
-          //   { items: cardsArray, renderer: (item) => addListItem(item) }, 
-          //   listSelector
-          // );
-          // Отображение карточек
-          // cardsList.renderItems();
       });
     
     });
@@ -83,7 +76,7 @@ function Main(props) {
       <section className="photo-grid">
         <ul className="photo-grid__list">
           {cards.map((card) => (
-            <Card card={card}/>
+            <Card onClick={props.onCardClick} card={card}/>
           ))}          
         </ul>  
       </section>
