@@ -22,7 +22,6 @@ function App() {
     setAddPlacePopupOpen(true);
   }
 
-
   return (
     <div className="App">
       <div className="page">
