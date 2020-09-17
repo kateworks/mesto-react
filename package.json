@@ -1,6 +1,8 @@
 {
   "name": "mesto-react",
   "version": "0.1.0",
+  "description": "Интерактивная страница для размещения фотографий",
+  "author": "Ekaterina Pozhidaeva",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
