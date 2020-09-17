@@ -16,8 +16,8 @@ function PopupWithForm(props) {
         type="button" 
         className="popup__btn popup__btn_action_close shaded"
         title="Закрыть форму без сохранения данных"
-        onClick={handleCloseClick}>
-      </button>
+        onClick={handleCloseClick} 
+      />
 
       <form 
         className={`popup__form popup__form_size_${props.size}`} 

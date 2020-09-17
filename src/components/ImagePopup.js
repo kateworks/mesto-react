@@ -15,8 +15,8 @@ function ImagePopup({card, onClose}) {
           type="button" 
           className="popup__btn popup__btn_action_close shaded"
           title="Закрыть окно просмотра"
-          onClick={handleCloseClick}>
-        </button>
+          onClick={handleCloseClick} 
+        />
 
         <figure className="popup__figure">
           <img 

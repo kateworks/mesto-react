@@ -57,18 +57,19 @@ function Main(props) {
         
         <div className="profile__description">
           <h1 className="profile__name">{userName}</h1>
-          <button className="profile__btn profile__btn_action_edit shaded"
-            title="Редактировать профиль" onClick={props.onEditProfile}>
-          </button>
+          <button 
+            className="profile__btn profile__btn_action_edit shaded"
+            title="Редактировать профиль" 
+            onClick={props.onEditProfile} 
+          />
           <p className="profile__work">{userDescription}</p>
         </div>
 
         <button 
           className="profile__btn profile__btn_action_add shaded" 
           onClick={props.onAddPlace} 
-          title="Добавить фотографию">
-        </button>
-
+          title="Добавить фотографию" 
+        />
       </section>
 
       <section className="photo-grid">
@@ -80,6 +81,6 @@ function Main(props) {
       </section>
     </main>
   );
-};
+}
 
 export default Main;

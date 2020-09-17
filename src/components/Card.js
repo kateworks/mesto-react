@@ -17,14 +17,12 @@ function Card({card, onClick}) {
         <h2 className="card__title">{card.title}</h2>
         <div className="card__like-group">
           <button className="card__btn card__btn_action_like shaded" 
-            title="Нравится">
-          </button>
+            title="Нравится" />
           <span className="card__like-num">{card.likes.length}</span>
         </div>
       </div>
       <button className="card__btn card__btn_action_del shaded"
-        title="Удалить">
-      </button>
+        title="Удалить"/>
     </li>
   );
 
