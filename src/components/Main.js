@@ -1,48 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Card from './Card';
 import api from '../utils/api';
-import {initialCards} from '../utils/cards-init';
-import profileAvatar from '../images/profile-avatar.jpg';
 
+import {initialCards} from '../utils/cards-init';
 
 function Main(props) {
-  const [userName, setUserName] = useState('Екатерина Пожидаева');
-  const [userDescription, setUserDescription] = useState('Студентка Яндекс.Практикума');
-  const [userAvatar, setUserAvatar] = useState(profileAvatar);
+  const currentUser = useContext(CurrentUserContext);
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    api.getUserInfo()
+    api.getInitialCards()
     .then((res) => {
-      console.log(`Информация о пользователе получена с сервера.`);
-      setUserName(res.name);
-      setUserDescription(res.about);
-      setUserAvatar(res.avatar);
+      console.log(`Информация о карточках получена с сервера.`);
+      setCards(res.map(item => {
+        return {
+          title: item.name, 
+          link: item.link, 
+          likes: item.likes, 
+          owner: item.owner._id,
+          id: item._id
+        };
+      }));
     })
     .catch((err) => {
-      console.log(`Невозможно прочитать профиль пользователя. ${err}.`);
-    })
-    .finally(() => {
-      api.getInitialCards()
-      .then((res) => {
-        console.log(`Информация о карточках получена с сервера.`);
-        setCards(res.map(item => {
-          return {
-            title: item.name, 
-            link: item.link, 
-            likes: item.likes, 
-            owner: item.owner._id,
-            id: item._id
-          };
-        }));
-      })
-      .catch((err) => {
-        console.log(`Невозможно получить карточки с сервера. ${err}.`);
-        setCards(initialCards);
-      })
-      .finally(() => {
-      });
-    
+      console.log(`Невозможно получить карточки с сервера. ${err}.`);
+      setCards(initialCards);
     });
   }, []);
 
@@ -51,18 +34,18 @@ function Main(props) {
       <section className="profile">
 
         <div className="profile__avatar" onClick={props.onEditAvatar}>
-          <img className="profile__image" src={userAvatar} 
+          <img className="profile__image" src={currentUser.avatar} 
             alt="Аватар профиля" title="Изменить аватар профиля"/>
         </div>
         
         <div className="profile__description">
-          <h1 className="profile__name">{userName}</h1>
+          <h1 className="profile__name">{currentUser.name}</h1>
           <button 
             className="profile__btn profile__btn_action_edit shaded"
             title="Редактировать профиль" 
             onClick={props.onEditProfile} 
           />
-          <p className="profile__work">{userDescription}</p>
+          <p className="profile__work">{currentUser.about}</p>
         </div>
 
         <button 

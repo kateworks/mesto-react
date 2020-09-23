@@ -1,15 +1,38 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import api from '../utils/api';
+
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import profileAvatar from '../images/profile-avatar.jpg';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState({
+    name: 'Екатерина',
+    about: '(без доступа в сеть)',
+    avatar: profileAvatar,
+    _id: 0,
+  });
+
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false); 
   const [selectedCard, setSelectedCard] = useState(null);
+
+  useEffect(() => {
+    api.getUserInfo()
+    .then((res) => {
+      console.log(`Информация о пользователе получена с сервера.`);
+      setCurrentUser(res); //{_id, name, about, avatar}
+    })
+    .catch((err) => {
+      console.log(`Невозможно прочитать профиль пользователя. ${err}.`);
+    });
+  }, []);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);
@@ -28,7 +51,8 @@ function App() {
   };
 
   return (
-    <div className="App">
+    //<div className="App">
+    <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
         <Main 
@@ -101,8 +125,8 @@ function App() {
           title="Вы уверены?" 
         /> */}
       </div>
-
-    </div>
+    </CurrentUserContext.Provider>
+    //</div>
   );
 }
 
