@@ -1,16 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card({card, onClick}) {
+function Card({card, onClick, onLike}) {
   const currentUser = useContext(CurrentUserContext);
-  const [isOwned] = useState(card.owner === currentUser._id);
-  const [isLiked] = useState(card.likes.some(
-    likeOwner => likeOwner._id === currentUser._id
-  ));
+  const isOwned = card.owner === currentUser._id;
 
   const handleClick = () => {
     onClick(card);
-  }
+  };
+
+  const handleLike = () => {
+    onLike(card);
+  };
 
   return(
     <li className="card">
@@ -23,9 +24,17 @@ function Card({card, onClick}) {
       <div className="card__description">
         <h2 className="card__title">{card.title}</h2>
         <div className="card__like-group">
-          <button className="card__btn card__btn_action_like shaded" 
-            title="Нравится" />
-          <span className="card__like-num">{card.likes.length}</span>
+          <button 
+            className={
+              `card__btn card__btn_action_like shaded 
+              ${card.likes.length > 0  ? 'card__btn_clicked' : ''}`
+            }
+            onClick={handleLike}
+            title="Нравится" 
+          />
+          <span className="card__like-num">
+            {card.likes.length}
+          </span>
         </div>
       </div>
 

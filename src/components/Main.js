@@ -29,17 +29,60 @@ function Main(props) {
     });
   }, []);
 
+  function handleCardLike(card) {
+    const isLiked = (card.likes.some(
+      likeAuthor => likeAuthor._id === currentUser._id
+    ));
+    const likeAction = isLiked ? 'удалить' : 'поставить';
+    const likeFunc = isLiked ? id => api.unlikeCard(id) : id => api.likeCard(id);
+    let changedCard = {};
+
+    // Ставим или удаляем лайк в зависимости от его текущего состояния
+    likeFunc(card.id)
+      .then((res) => {
+        // Если запрос выполнен успешно, создаем новую карточку
+        changedCard = {
+          title: res.name, 
+          link: res.link, 
+          likes: res.likes, 
+          owner: res.owner._id,
+          id: res._id
+        };
+      })
+      .catch((err) => {
+        console.log(`Невозможно ${likeAction} лайк. Ошибка ${err}.`);
+        // Если сервер недоступен, работаем с локальным пользователем,
+        // добавляя (или удаляя его данные из массива likes)
+        const likesArray = isLiked ? [] : [ currentUser ];
+        changedCard = { ...card, likes: likesArray, };
+      })
+      .finally(() => {
+        // Выполняем замену карточки
+        const newCards = cards.map((currentCard) => (
+          currentCard.id === card.id ? changedCard : currentCard
+        ));
+        // Обновляем состояние 
+        setCards(newCards);
+      });
+}
+
   return(
     <main className="content">
       <section className="profile">
 
         <div className="profile__avatar" onClick={props.onEditAvatar}>
-          <img className="profile__image" src={currentUser.avatar} 
-            alt="Аватар профиля" title="Изменить аватар профиля"/>
+          <img 
+            src={currentUser.avatar} 
+            className="profile__image" 
+            alt="Аватар профиля" 
+            title="Изменить аватар профиля"
+          />
         </div>
         
         <div className="profile__description">
-          <h1 className="profile__name">{currentUser.name}</h1>
+          <h1 className="profile__name">
+            {currentUser.name}
+          </h1>
           <button 
             className="profile__btn profile__btn_action_edit shaded"
             title="Редактировать профиль" 
@@ -58,7 +101,11 @@ function Main(props) {
       <section className="photo-grid">
         <ul className="photo-grid__list">
           {cards.map((card) => (
-            <Card onClick={props.onCardClick} card={card} key={card.id}/>
+            <Card key={card.id}
+              card={card} 
+              onClick={props.onCardClick}
+              onLike={handleCardLike}
+            />
           ))}          
         </ul>  
       </section>
