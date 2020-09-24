@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import api from '../utils/api';
 
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import EditProfilePopup from './EditProfilePopup';
 
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+
+import api from '../utils/api';
 import profileAvatar from '../images/profile-avatar.jpg';
 
 function App() {
@@ -19,8 +21,11 @@ function App() {
   });
 
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [profileSubmitName, setProfileSubmitName] = useState('Сохранить');
+
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false); 
+
   const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
@@ -33,6 +38,23 @@ function App() {
       console.log(`Невозможно прочитать профиль пользователя. ${err}.`);
     });
   }, []);
+
+  const handleUpdateUser = ({name, info}) => {
+    setProfileSubmitName('Сохранение...');
+    api.patchUserProfile({name, info})
+      .then((res) => {
+        console.log(`Информация о пользователе сохранена.`);
+        setCurrentUser(res); //{_id, name, about, avatar}  
+      })
+      .catch((err) => {
+        console.log(`Невозможно сохранить данные на сервере. ${err}.`);
+        setCurrentUser({...currentUser, name, about: info});
+      })
+      .finally(() => { 
+        setEditProfilePopupOpen(false);
+        setProfileSubmitName('Сохранить');
+      });  
+  };
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);
@@ -66,26 +88,13 @@ function App() {
         <ImagePopup card={selectedCard} 
           onClose={() => {setSelectedCard(null);}}/>
 
-        <PopupWithForm name="profile" 
-          size="l" submitName="Сохранить" title="Редактировать профиль" 
+        {/* Редактирование профиля пользователя */}
+        <EditProfilePopup 
+          submitName={profileSubmitName}
           isOpen={isEditProfilePopupOpen} 
-          onClose={() => {setEditProfilePopupOpen(false);}}
-        >
-          <label className="popup__field">
-            <input type="text" id="name" name="name" 
-                maxLength="40" minLength="2" 
-                className="popup__item popup__item_type_name" 
-                placeholder="Имя" required/>
-            <span className="popup__error" id="name-error" />
-          </label>
-          <label className="popup__field">
-            <input type="text" id="info" name="info" 
-                maxLength="200" minLength="2" 
-                className="popup__item popup__item_type_info" 
-                placeholder="О себе" required/>
-            <span className="popup__error" id="info-error" />
-          </label>
-        </PopupWithForm> 
+          onUpdateUser={handleUpdateUser}
+          onClose={() => {setEditProfilePopupOpen(false);}} 
+        />
 
         <PopupWithForm name="avatar" 
           size="m" submitName="Сохранить" title="Обновить аватар" 
