@@ -29,7 +29,7 @@ function Main(props) {
     });
   }, []);
 
-  function handleCardLike(card) {
+  const handleCardLike = (card) => {
     const isLiked = (card.likes.some(
       likeAuthor => likeAuthor._id === currentUser._id
     ));
@@ -64,7 +64,24 @@ function Main(props) {
         // Обновляем состояние 
         setCards(newCards);
       });
-}
+  };
+
+  // Удаление карточки
+  const handleCardDelete = (card) => {
+    api.deleteCard(card.id)
+      .then((res) => {
+        // Исключаем из массива удаленную карточку
+        const newCards = cards.filter((currentCard) => (
+          currentCard.id !== card.id
+        ));
+        // Обновляем состояние 
+        setCards(newCards);
+        console.log(`Карточка ${card.id} удалена.`); 
+      })
+      .catch((err) => {
+        console.log(`Невозможно удалить карточку. Ошибка ${err}.`);
+      });
+  };
 
   return(
     <main className="content">
@@ -105,6 +122,7 @@ function Main(props) {
               card={card} 
               onClick={props.onCardClick}
               onLike={handleCardLike}
+              onDelete={handleCardDelete}
             />
           ))}          
         </ul>  

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card({card, onClick, onLike}) {
+function Card({ card, onClick, onLike, onDelete }) {
   const currentUser = useContext(CurrentUserContext);
   const isOwned = card.owner === currentUser._id;
 
@@ -11,6 +11,10 @@ function Card({card, onClick, onLike}) {
 
   const handleLike = () => {
     onLike(card);
+  };
+
+  const handleDelete = () => {
+    onDelete(card);
   };
 
   return(
@@ -41,6 +45,7 @@ function Card({card, onClick, onLike}) {
       <button 
         className="card__btn card__btn_action_del shaded" 
         disabled={!isOwned} hidden={!isOwned}
+        onClick={handleDelete}
         title="Удалить"
       />
     </li>

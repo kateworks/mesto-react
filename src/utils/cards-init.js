@@ -13,7 +13,7 @@ export const initialCards = [
   { title: 'Петергоф', link: peterhofImage3, likes: [], owner: 0, id: 2 },
   { title: 'Петергоф', link: peterhofImage1, likes: [], owner: 0, id: 3 },
   { title: 'Ораниенбаум', link: oranienbaumImage, likes: [], owner: 0, id: 4 },
-  { title: 'Парк Александрия', link: alexandriaImage, likes: [], owner: 1, id: 5 },
+  { title: 'Парк Александрия', link: alexandriaImage, likes: [], owner: 0, id: 5 },
   { title: 'Петергоф', link: peterhofImage, likes: [], owner: 0, id: 6 }
 ];
 
