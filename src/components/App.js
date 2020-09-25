@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
-
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
@@ -20,13 +18,11 @@ function App() {
     _id: 0,
   });
 
+  const [selectedCard, setSelectedCard] = useState(null);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
-  const [profileSubmitName, setProfileSubmitName] = useState('Сохранить');
-
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false); 
-
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [profileSubmitName, setProfileSubmitName] = useState('Сохранить');
 
   useEffect(() => {
     api.getUserInfo()
@@ -60,10 +56,6 @@ function App() {
     setEditAvatarPopupOpen(true);
   };
 
-  const handleEditProfileClick = () => {
-    setEditProfilePopupOpen(true);
-  };
-
   const handleAddPlaceClick = () => {
     setAddPlacePopupOpen(true);
   };
@@ -73,12 +65,11 @@ function App() {
   };
 
   return (
-    //<div className="App">
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
         <Main 
-          onEditProfile={handleEditProfileClick}
+          onEditProfile={ () => setEditProfilePopupOpen(true) }
           onAddPlace={handleAddPlaceClick} 
           onEditAvatar={handleEditAvatarClick}
           onCardClick={(card) => {handleCardClick(card);}}
@@ -86,7 +77,7 @@ function App() {
         <Footer />
 
         <ImagePopup card={selectedCard} 
-          onClose={() => {setSelectedCard(null);}}/>
+          onClose={ () => setSelectedCard(null) }/>
 
         {/* Редактирование профиля пользователя */}
         <EditProfilePopup 
@@ -135,7 +126,6 @@ function App() {
         /> */}
       </div>
     </CurrentUserContext.Provider>
-    //</div>
   );
 }
 

@@ -1,11 +1,6 @@
 import React from 'react';
 
 function PopupWithForm(props) {
-
-  const handleCloseClick = () => {
-    props.onClose();
-  }
-
   const openClass = props.isOpen && 'popup_opened';
 
   return(
@@ -16,7 +11,7 @@ function PopupWithForm(props) {
         type="button" 
         className="popup__btn popup__btn_action_close shaded"
         title="Закрыть форму без сохранения данных"
-        onClick={handleCloseClick} 
+        onClick={props.onClose} 
       />
 
       <form 

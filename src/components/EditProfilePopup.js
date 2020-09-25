@@ -8,9 +8,14 @@ function EditProfilePopup(props) {
   const [info, setInfo] = useState(currentUser.about);
 
   useEffect(() => {
-    setName(currentUser.name);
-    setInfo(currentUser.about);
-  }, [currentUser]);
+    if (props.isOpen) {
+      setName(currentUser.name);
+      setInfo(currentUser.about);
+    } else {
+      setName('');
+      setInfo('');  
+    }
+  }, [currentUser, props.isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,18 +30,12 @@ function EditProfilePopup(props) {
     setInfo(e.target.value);
   };
 
-  const handleClose = () => {
-    props.onClose();
-    setName(currentUser.name);
-    setInfo(currentUser.about);
-  };
-
   return (
     <PopupWithForm name="profile" 
       size="l" submitName={props.submitName} 
       title="Редактировать профиль" 
       isOpen={props.isOpen} 
-      onClose={handleClose}
+      onClose={props.onClose}
       onSubmit={handleSubmit}
     >
       <label className="popup__field">
