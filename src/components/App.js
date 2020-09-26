@@ -3,22 +3,24 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
-
-import PopupWithForm from './PopupWithForm';
+import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 
 import api from '../utils/api';
 import profileAvatar from '../images/profile-avatar.jpg';
+import {initialCards} from '../utils/cards-init';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({
-    _id: 0,
+    _id: 0, 
     name: 'Екатерина',
     about: '(без доступа в сеть)',
     avatar: profileAvatar,
   });
+  const [cards, setCards] = useState([]);
 
   const [selectedCard, setSelectedCard] = useState(null);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -27,7 +29,9 @@ function App() {
 
   const [profileSubmitName, setProfileSubmitName] = useState('Сохранить');
   const [avatarSubmitName, setAvatarSubmitName] = useState('Сохранить');
+  const [addPlaceSubmitName, setAddPlaceSubmitName] = useState('Создать');
 
+  // Читаем данные с сервера
   useEffect(() => {
     api.getUserInfo()
     .then((res) => {
@@ -42,6 +46,25 @@ function App() {
     })
     .catch((err) => {
       console.log(`Невозможно прочитать профиль пользователя. ${err}.`);
+    })
+    .finally(() => {
+      api.getInitialCards()
+      .then((res) => {
+        console.log(`Информация о карточках получена с сервера.`);
+        setCards(res.map(item => {
+          return {
+            title: item.name, 
+            link: item.link, 
+            likes: item.likes, 
+            owner: item.owner._id,
+            id: item._id
+          };
+        }));
+      })
+      .catch((err) => {
+        console.log(`Невозможно получить карточки с сервера. ${err}.`);
+        setCards(initialCards);
+      });  
     });
   }, []);
 
@@ -80,8 +103,80 @@ function App() {
     });
   };
 
-  const handleAddPlaceClick = () => {
-    setAddPlacePopupOpen(true);
+  const handleCardLike = (card) => {
+    const isLiked = (card.likes.some(
+      likeAuthor => likeAuthor._id === currentUser._id
+    ));
+    const likeAction = isLiked ? 'удалить' : 'поставить';
+    const likeFunc = isLiked ? id => api.unlikeCard(id) : id => api.likeCard(id);
+    let changedCard = {};
+
+    // Ставим или удаляем лайк в зависимости от его текущего состояния
+    likeFunc(card.id)
+      .then((res) => {
+        // Если запрос выполнен успешно, создаем новую карточку
+        changedCard = {
+          title: res.name, 
+          link: res.link, 
+          likes: res.likes, 
+          owner: res.owner._id,
+          id: res._id
+        };
+      })
+      .catch((err) => {
+        console.log(`Невозможно ${likeAction} лайк. Ошибка ${err}.`);
+        // Если сервер недоступен, работаем с локальным пользователем,
+        // добавляя (или удаляя его данные из массива likes)
+        const likesArray = isLiked ? [] : [ currentUser ];
+        changedCard = { ...card, likes: likesArray, };
+      })
+      .finally(() => {
+        // Выполняем замену карточки
+        const newCards = cards.map((currentCard) => (
+          currentCard.id === card.id ? changedCard : currentCard
+        ));
+        // Обновляем состояние 
+        setCards(newCards);
+      });
+  };
+
+  // Удаление карточки
+  const handleCardDelete = (card) => {
+    api.deleteCard(card.id)
+      .then((res) => {
+        // Исключаем из массива удаленную карточку
+        const newCards = cards.filter((currentCard) => (
+          currentCard.id !== card.id
+        ));
+        // Обновляем состояние 
+        setCards(newCards);
+        console.log(`Карточка ${card.id} удалена.`); 
+      })
+      .catch((err) => {
+        console.log(`Невозможно удалить карточку. Ошибка ${err}.`);
+      });
+  };
+
+  const handleAddPlace = (title, link) => {
+    setAddPlaceSubmitName('Сохранение...');
+    api.postNewCard({name: title, link: link})
+      .then((res) => {
+        const newCard = { 
+          title: res.name, 
+          link: res.link, 
+          likes: res.likes, 
+          owner: res.owner._id, 
+          id: res._id
+        };
+        setCards([...cards, newCard]);
+      })
+      .catch((err) => {
+        console.log(`Невозможно сохранить карточку на сервере. Ошибка ${err}.`);
+      })
+      .finally(() => {
+        setAddPlacePopupOpen(false);
+        setAddPlaceSubmitName('Создать');
+      });
   };
 
   return (
@@ -90,9 +185,12 @@ function App() {
         <Header />
         <Main 
           onEditProfile={ () => setEditProfilePopupOpen(true) }
-          onAddPlace={handleAddPlaceClick} 
+          onAddPlace={ () => setAddPlacePopupOpen(true) } 
           onEditAvatar={ () => setEditAvatarPopupOpen(true) }
           onCardClick={ (card) => setSelectedCard(card) }
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+          cards={cards}
         />
         <Footer />
 
@@ -120,25 +218,13 @@ function App() {
           onClose={() => {setEditAvatarPopupOpen(false);}} 
         />
 
-        <PopupWithForm name="card" 
-          size="l" submitName="Создать" title="Новое место" 
+        {/* Добавление карточки */}
+        <AddPlacePopup
+          submitName={addPlaceSubmitName}
           isOpen={isAddPlacePopupOpen} 
-          onClose={() => {setAddPlacePopupOpen(false);}}
-        >
-          <label className="popup__field">
-            <input type="text" id="title" name="title" maxLength="30" minLength="1" 
-              className="popup__item popup__item_type_name" 
-              placeholder="Название" required/>
-            <span className="popup__error" id="title-error" />
-          </label>
-
-          <label className="popup__field">
-            <input type="url" id="link" name="link" pattern="https?://.+" 
-              className="popup__item popup__item_type_info" 
-              placeholder="Ссылка на картинку" required/>
-            <span className="popup__error" id="link-error" />
-          </label>
-        </PopupWithForm>
+          onAddPlace={handleAddPlace}
+          onClose={() => {setAddPlacePopupOpen(false);}} 
+        />
 
         {/* <PopupWithForm 
           name="confirm" size="s" submitName="Да"

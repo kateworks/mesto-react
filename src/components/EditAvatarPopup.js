@@ -2,6 +2,8 @@ import React, {useContext, useEffect, useRef} from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
 
+// Редактирование пользователького аватара
+
 function EditAvatarPopup(props) {
   const currentUser = useContext(CurrentUserContext);
   const inputRef = useRef();
