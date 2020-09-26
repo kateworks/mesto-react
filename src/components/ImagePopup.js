@@ -1,16 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-function ImagePopup({card, onClose}) {
+// Всплывающее окно просмотра фотографии
+
+function ImagePopup({ card, onClose }) {
+
+  const [popupOpenClass, setPopupOpenClass] = useState('');
 
   const handleCloseClick = () => {
+    setPopupOpenClass('');
     onClose();
   }
 
-  const openClass = card && 'popup_opened';
+  const handleOverlayClick = (evt) => {
+    if (evt.target === evt.currentTarget) handleCloseClick();
+  };
+
+  // Создание всплывающего окна
+  useEffect(() => {
+
+    const handleEscPress = (evt) => {
+      if (evt.key === 'Escape') handleCloseClick();
+    };
+
+    // Добавляем обработку нажатия ESC
+    document.addEventListener('keyup', handleEscPress);
+    // Делаем окно видимым
+    setPopupOpenClass('popup_opened');
+
+    // Удаление всплывающего окна
+    return (() => {
+      // Удаляем обработчик нажатия ESC
+      document.removeEventListener('keyup', handleEscPress);
+    });
+
+  }, []);
 
   return(
-    <div className={`popup popup_content_image ${openClass}`}>
-      <div className="popup__image-box">
+    <div 
+      className={`popup popup_content_image ${popupOpenClass}`}
+      onClick={handleOverlayClick}
+    >
+      <div 
+        className="popup__image-box"
+      >
         <button 
           type="button" 
           className="popup__btn popup__btn_action_close shaded"
@@ -18,14 +50,18 @@ function ImagePopup({card, onClose}) {
           onClick={handleCloseClick} 
         />
 
-        <figure className="popup__figure">
+        <figure 
+          className="popup__figure"
+        >
           <img 
-            src={card ? card.link : '#'} 
             className="popup__image" 
-            alt={card ? card.title : 'title'}
+            src={card.link} 
+            alt={card.title}
           />
-          <figcaption className="popup__image-caption">
-            {card ? card.title : 'caption'}
+          <figcaption 
+            className="popup__image-caption"
+          >
+            {card.title}
           </figcaption>
         </figure>
       </div>

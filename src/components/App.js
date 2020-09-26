@@ -72,12 +72,12 @@ function App() {
           onEditProfile={ () => setEditProfilePopupOpen(true) }
           onAddPlace={handleAddPlaceClick} 
           onEditAvatar={handleEditAvatarClick}
-          onCardClick={(card) => {handleCardClick(card);}}
+          onCardClick={ (card) => {handleCardClick(card); }}
         />
         <Footer />
 
-        <ImagePopup card={selectedCard} 
-          onClose={ () => setSelectedCard(null) }/>
+        { selectedCard && <ImagePopup card={selectedCard} 
+          onClose={ () => setSelectedCard(null) }/> }
 
         {/* Редактирование профиля пользователя */}
         <EditProfilePopup 
