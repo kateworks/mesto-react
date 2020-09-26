@@ -33,6 +33,7 @@ function ImagePopup({ card, onClose }) {
       document.removeEventListener('keyup', handleEscPress);
     });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return(
