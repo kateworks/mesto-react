@@ -4,30 +4,27 @@ import PopupWithForm from './PopupWithForm';
 
 function EditProfilePopup(props) {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState(currentUser.name);
-  const [info, setInfo] = useState(currentUser.about);
+  const [inputValues, setInputValues] = useState({
+    name: currentUser.name,
+    info: currentUser.about,
+  });
 
   useEffect(() => {
     if (props.isOpen) {
-      setName(currentUser.name);
-      setInfo(currentUser.about);
+      setInputValues({ name: currentUser.name, info: currentUser.about});
     } else {
-      setName('');
-      setInfo('');  
+      setInputValues({ name: '', info: ''});
     }
   }, [currentUser, props.isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onUpdateUser({ name, info });
+    props.onUpdateUser(inputValues);
   };
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleInfoChange = (e) => {
-    setInfo(e.target.value);
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setInputValues({...inputValues, [name]: value});
   };
 
   return (
@@ -44,8 +41,8 @@ function EditProfilePopup(props) {
           className="popup__item popup__item_type_name" 
           maxLength="40" minLength="2" 
           placeholder="Имя" required
-          value={name}
-          onChange={handleNameChange}
+          value={inputValues.name}
+          onChange={handleChange}
         />
         <span className="popup__error" id="name-error" />
       </label>
@@ -56,8 +53,8 @@ function EditProfilePopup(props) {
           className="popup__item popup__item_type_info" 
           maxLength="200" minLength="2" 
           placeholder="О себе" required
-          value={info}
-          onChange={handleInfoChange}
+          value={inputValues.info}
+          onChange={handleChange}
         />
         <span className="popup__error" id="info-error" />
       </label>
