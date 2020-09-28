@@ -21,10 +21,11 @@ function App() {
     about: '(без доступа в сеть)',
     avatar: profileAvatar,
   });
-  const [cards, setCards] = useState([]);
 
+  const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [deletedCard, setDeletedCard] = useState(null);
+
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -34,8 +35,11 @@ function App() {
   const [addPlaceSubmitName, setAddPlaceSubmitName] = useState('Создать');
   const [deleteCardSubmitName, setDeleteCardSubmitName] = useState('Да');
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // Читаем данные с сервера
   useEffect(() => {
+    setIsLoading(true);
     api.getUserInfo()
     .then((res) => {
       console.log(`Информация о пользователе получена с сервера.`);
@@ -67,6 +71,9 @@ function App() {
       .catch((err) => {
         console.log(`Невозможно получить карточки с сервера. ${err}.`);
         setCards(initialCards);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });  
     });
   }, []);
@@ -203,6 +210,7 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleDeleteButtonClick}
           cards={cards}
+          isLoading={isLoading}
         />
         <Footer />
 

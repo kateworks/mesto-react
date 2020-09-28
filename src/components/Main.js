@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Card from './Card';
+import Loader from './Loader';
 
 function Main(props) {
   const currentUser = useContext(CurrentUserContext);
@@ -38,16 +39,19 @@ function Main(props) {
       </section>
 
       <section className="photo-grid">
-        <ul className="photo-grid__list">
-          {props.cards.map((card) => (
-            <Card key={card.id}
-              card={card} 
-              onClick={props.onCardClick}
-              onLike={props.onCardLike}
-              onDelete={props.onCardDelete}
-            />
-          ))}          
-        </ul>  
+      { props.isLoading 
+        ? <Loader/>
+        : <ul className="photo-grid__list">
+            {props.cards.map((card) => (
+              <Card key={card.id}
+                card={card} 
+                onClick={props.onCardClick}
+                onLike={props.onCardLike}
+                onDelete={props.onCardDelete}
+              />
+            ))}        
+          </ul>
+      } 
       </section>
     </main>
   );
