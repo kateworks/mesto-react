@@ -8,6 +8,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
+import ConfirmPopup from './ConfirmPopup';
 
 import api from '../utils/api';
 import profileAvatar from '../images/profile-avatar.jpg';
@@ -23,6 +24,7 @@ function App() {
   const [cards, setCards] = useState([]);
 
   const [selectedCard, setSelectedCard] = useState(null);
+  const [deletedCard, setDeletedCard] = useState(null);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -30,6 +32,7 @@ function App() {
   const [profileSubmitName, setProfileSubmitName] = useState('Сохранить');
   const [avatarSubmitName, setAvatarSubmitName] = useState('Сохранить');
   const [addPlaceSubmitName, setAddPlaceSubmitName] = useState('Создать');
+  const [deleteCardSubmitName, setDeleteCardSubmitName] = useState('Да');
 
   // Читаем данные с сервера
   useEffect(() => {
@@ -141,7 +144,12 @@ function App() {
   };
 
   // Удаление карточки
+  const handleDeleteButtonClick = (card) => {
+    setDeletedCard(card);
+  };
+
   const handleCardDelete = (card) => {
+    setDeleteCardSubmitName('Удаление...');
     api.deleteCard(card.id)
       .then((res) => {
         // Исключаем из массива удаленную карточку
@@ -154,6 +162,10 @@ function App() {
       })
       .catch((err) => {
         console.log(`Невозможно удалить карточку. Ошибка ${err}.`);
+      })
+      .finally(() => {
+        setDeleteCardSubmitName('Да');
+        setDeletedCard(null);
       });
   };
 
@@ -184,19 +196,18 @@ function App() {
       <div className="page">
         <Header />
         <Main 
-          onEditProfile={ () => setEditProfilePopupOpen(true) }
-          onAddPlace={ () => setAddPlacePopupOpen(true) } 
-          onEditAvatar={ () => setEditAvatarPopupOpen(true) }
-          onCardClick={ (card) => setSelectedCard(card) }
+          onEditProfile={() => setEditProfilePopupOpen(true)}
+          onAddPlace={() => setAddPlacePopupOpen(true)} 
+          onEditAvatar={() => setEditAvatarPopupOpen(true)}
+          onCardClick={(card) => setSelectedCard(card)}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDelete={handleDeleteButtonClick}
           cards={cards}
         />
         <Footer />
 
         {/* Просмотр фотографии */}
-        { 
-          selectedCard && 
+        { selectedCard && 
           <ImagePopup 
             card={selectedCard} 
             onClose={ () => setSelectedCard(null) }
@@ -207,7 +218,7 @@ function App() {
           submitName={profileSubmitName}
           isOpen={isEditProfilePopupOpen} 
           onUpdateUser={handleUpdateUser}
-          onClose={() => {setEditProfilePopupOpen(false);}} 
+          onClose={() => setEditProfilePopupOpen(false)} 
         />
 
         {/* Обновление аватара пользователя */}
@@ -215,7 +226,7 @@ function App() {
           submitName={avatarSubmitName}
           isOpen={isEditAvatarPopupOpen} 
           onUpdateAvatar={handleUpdateAvatar}
-          onClose={() => {setEditAvatarPopupOpen(false);}} 
+          onClose={() => setEditAvatarPopupOpen(false)} 
         />
 
         {/* Добавление карточки */}
@@ -223,13 +234,15 @@ function App() {
           submitName={addPlaceSubmitName}
           isOpen={isAddPlacePopupOpen} 
           onAddPlace={handleAddPlace}
-          onClose={() => {setAddPlacePopupOpen(false);}} 
+          onClose={() => setAddPlacePopupOpen(false)} 
         />
 
-        {/* <PopupWithForm 
-          name="confirm" size="s" submitName="Да"
-          title="Вы уверены?" 
-        /> */}
+        <ConfirmPopup 
+          submitName={deleteCardSubmitName}
+          card={deletedCard}
+          onConfirm={handleCardDelete}
+          onClose={() => setDeletedCard(null)}
+        />
       </div>
     </CurrentUserContext.Provider>
   );
