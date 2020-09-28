@@ -1,20 +1,26 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import PopupWithForm from './PopupWithForm';
 
 // Добавление карточки
 
 function AddPlacePopup(props) {
-  const titleRef = useRef();
-  const linkRef = useRef();
+  const [inputValues, setInputValues] = useState({ 
+    title: '',
+    link: '',
+  });
 
   useEffect(() => {
-    titleRef.current.value = '';
-    linkRef.current.value = '';
+    setInputValues({ title: '', link: ''});
   }, [props.isOpen]);
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setInputValues({...inputValues, [name]: value});
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.onAddPlace(titleRef.current.value, linkRef.current.value);
+    props.onAddPlace(inputValues);
   };
 
   return (
@@ -26,12 +32,14 @@ function AddPlacePopup(props) {
       onSubmit={handleSubmit}
     >
       <label className="popup__field">
-        <input type="text" ref={titleRef}
+        <input type="text"
           id="title" name="title" 
           maxLength="30" minLength="1" 
           className="popup__item popup__item_type_name" 
           placeholder="Название" 
           required
+          value={inputValues.title}
+          onChange={handleChange}
         />
         <span 
           className="popup__error" 
@@ -40,12 +48,14 @@ function AddPlacePopup(props) {
       </label>
 
       <label className="popup__field">
-        <input type="url" ref={linkRef}
+        <input type="url"
           id="link" name="link" 
           pattern="https?://.+" 
           className="popup__item popup__item_type_info" 
           placeholder="Ссылка на картинку" 
           required
+          value={inputValues.link}
+          onChange={handleChange}
         />
         <span 
           className="popup__error" 

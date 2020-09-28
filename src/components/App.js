@@ -157,9 +157,9 @@ function App() {
       });
   };
 
-  const handleAddPlace = (title, link) => {
+  const handleAddPlace = (newPlace) => {
     setAddPlaceSubmitName('Сохранение...');
-    api.postNewCard({name: title, link: link})
+    api.postNewCard({name: newPlace.title, link: newPlace.link})
       .then((res) => {
         const newCard = { 
           title: res.name, 
