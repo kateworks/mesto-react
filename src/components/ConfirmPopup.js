@@ -12,9 +12,10 @@ function ConfirmPopup(props) {
 
   return(
     <PopupWithForm 
-      name="confirm" 
-      size="s" submitName={props.submitName}
+      name="confirm" size="s" 
       title="Вы уверены?"
+      submitName={props.submitName}
+      submitDisabled={false}
       isOpen={props.card} 
       onClose={props.onClose}
       onSubmit={handleSubmit}

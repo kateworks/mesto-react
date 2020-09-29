@@ -51,6 +51,7 @@ function PopupWithForm(props) {
 
           <button 
             type="submit" value="Создать" 
+            disabled={props.submitDisabled}
             className="popup__btn popup__btn_action_submit"
           >
               {props.submitName}
