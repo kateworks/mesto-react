@@ -22,7 +22,7 @@ function App() {
     avatar: profileAvatar,
   });
 
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState(initialCards);
   const [selectedCard, setSelectedCard] = useState(null);
   const [deletedCard, setDeletedCard] = useState(null);
 
@@ -40,41 +40,32 @@ function App() {
   // Читаем данные с сервера
   useEffect(() => {
     setIsLoading(true);
-    api.getUserInfo()
-    .then((res) => {
-      console.log(`Информация о пользователе получена с сервера.`);
-      const newUserData = {
-        _id: res._id,
-        name: res.name, 
-        about: res.about,
-        avatar: res.avatar
-      };
-      setCurrentUser(newUserData);
+    
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+    .then(([userData, cardsData]) => {
+
+      setCurrentUser({
+        _id: userData._id,
+        name: userData.name, 
+        about: userData.about,
+        avatar: userData.avatar
+      });
+
+      setCards(cardsData.map(item => {
+        return {
+          title: item.name, 
+          link: item.link, 
+          likes: item.likes, 
+          owner: item.owner._id,
+          id: item._id
+        };
+      }));
     })
-    .catch((err) => {
-      console.log(`Невозможно прочитать профиль пользователя. ${err}.`);
+    .catch((error) => {
+      console.log(`Ошибка загрузки данных: ${error}.`);
     })
     .finally(() => {
-      api.getInitialCards()
-      .then((res) => {
-        console.log(`Информация о карточках получена с сервера.`);
-        setCards(res.map(item => {
-          return {
-            title: item.name, 
-            link: item.link, 
-            likes: item.likes, 
-            owner: item.owner._id,
-            id: item._id
-          };
-        }));
-      })
-      .catch((err) => {
-        console.log(`Невозможно получить карточки с сервера. ${err}.`);
-        setCards(initialCards);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });  
+      setIsLoading(false);
     });
   }, []);
 
