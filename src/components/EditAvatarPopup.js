@@ -1,15 +1,27 @@
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
+import {popupInputClass} from '../utils/constants';
 
 // Редактирование пользователького аватара
 
 function EditAvatarPopup(props) {
   const currentUser = useContext(CurrentUserContext);
   const inputRef = useRef();
+  const errorMessage = useRef();
+  const [errorClasses, setErrorClasses] = useState({input: '', error: '', });
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   useEffect(() => {
-    inputRef.current.value = props.isOpen ? currentUser.avatar : '';
+    if (props.isOpen) {
+      inputRef.current.value = currentUser.avatar;
+      setIsSubmitDisabled(false);
+    } else {
+      inputRef.current.value = '';
+      setIsSubmitDisabled(true);
+    };
+    errorMessage.current.textContent = '';
+    setErrorClasses({input: '', error: '', });
   }, [currentUser, props.isOpen]);
 
   const handleSubmit = (e) => {
@@ -17,10 +29,22 @@ function EditAvatarPopup(props) {
     props.onUpdateAvatar(inputRef.current.value);
   };
 
+  const handleInput = (e) => {
+    const {validity, validationMessage} = e.target;
+    errorMessage.current.textContent = validationMessage;
+    setErrorClasses({
+      input: !validity.valid ? popupInputClass.inputError : '', 
+      error: !validity.valid ? popupInputClass.error : '', 
+    });
+    setIsSubmitDisabled(!validity.valid);
+  };
+
   return (
-    <PopupWithForm name="avatar" 
-      size="m" submitName={props.submitName} 
+    <PopupWithForm 
+      name="avatar" size="m" 
       title="Обновить аватар" 
+      submitName={props.submitName} 
+      submitDisabled={isSubmitDisabled}      
       isOpen={props.isOpen} 
       onClose={props.onClose}
       onSubmit={handleSubmit}
@@ -29,18 +53,18 @@ function EditAvatarPopup(props) {
         <input type="url" ref={inputRef}
           id="avatar" name="avatar" 
           pattern="https?://.+" 
-          className="popup__item popup__item_type_info" 
+          className={`popup__item popup__item_type_name ${errorClasses.input}`}  
           placeholder="Ссылка на картинку" 
           required
+          onInput={handleInput}
         />
-        <span 
-          className="popup__error" 
+        <span ref={errorMessage}
+          className={`popup__error ${errorClasses.error}`}  
           id="avatar-error"
         />
       </label>
     </PopupWithForm>
   );
-
 }
 
 export default EditAvatarPopup;
