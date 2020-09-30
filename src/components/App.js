@@ -40,7 +40,7 @@ function App() {
   // Читаем данные с сервера
   useEffect(() => {
     setIsLoading(true);
-    
+
     Promise.all([api.getUserInfo(), api.getInitialCards()])
     .then(([userData, cardsData]) => {
 
@@ -76,14 +76,12 @@ function App() {
       .then((res) => {
         console.log(`Информация о пользователе сохранена.`);
         setCurrentUser({...currentUser, name: res.name, about: res.about}); 
+        setEditProfilePopupOpen(false);
       })
       .catch((err) => {
         console.log(`Невозможно сохранить данные на сервере. ${err}.`);
-        // Обновляем локальные данные
-        setCurrentUser({...currentUser, name, about: info});
       })
       .finally(() => { 
-        setEditProfilePopupOpen(false);
         setProfileSubmitName('Сохранить');
       });  
   };
@@ -94,12 +92,12 @@ function App() {
     api.patchNewAvatar({avatar: newAvatarLink})
     .then((res) => {
       setCurrentUser({...currentUser, avatar: res.avatar});  
+      setEditAvatarPopupOpen(false);
     })
     .catch((err) => {
       console.log(`Невозможно обновить аватар на сервере. ${err}.`);
     })
     .finally(() => {
-      setEditAvatarPopupOpen(false);
       setAvatarSubmitName('Сохранить');
     });
   };
@@ -110,34 +108,27 @@ function App() {
     ));
     const likeAction = isLiked ? 'удалить' : 'поставить';
     const likeFunc = isLiked ? id => api.unlikeCard(id) : id => api.likeCard(id);
-    let changedCard = {};
 
     // Ставим или удаляем лайк в зависимости от его текущего состояния
     likeFunc(card.id)
       .then((res) => {
         // Если запрос выполнен успешно, создаем новую карточку
-        changedCard = {
+        const changedCard = {
           title: res.name, 
           link: res.link, 
           likes: res.likes, 
           owner: res.owner._id,
           id: res._id
         };
-      })
-      .catch((err) => {
-        console.log(`Невозможно ${likeAction} лайк. Ошибка ${err}.`);
-        // Если сервер недоступен, работаем с локальным пользователем,
-        // добавляя (или удаляя его данные из массива likes)
-        const likesArray = isLiked ? [] : [ currentUser ];
-        changedCard = { ...card, likes: likesArray, };
-      })
-      .finally(() => {
         // Выполняем замену карточки
         const newCards = cards.map((currentCard) => (
           currentCard.id === card.id ? changedCard : currentCard
         ));
         // Обновляем состояние 
         setCards(newCards);
+      })
+      .catch((err) => {
+        console.log(`Невозможно ${likeAction} лайк. Ошибка ${err}.`);
       });
   };
 
@@ -157,13 +148,13 @@ function App() {
         // Обновляем состояние 
         setCards(newCards);
         console.log(`Карточка ${card.id} удалена.`); 
+        setDeletedCard(null);
       })
       .catch((err) => {
         console.log(`Невозможно удалить карточку. Ошибка ${err}.`);
       })
       .finally(() => {
         setDeleteCardSubmitName('Да');
-        setDeletedCard(null);
       });
   };
 
@@ -178,13 +169,13 @@ function App() {
           owner: res.owner._id, 
           id: res._id
         };
-        setCards([...cards, newCard]);
+        setCards([newCard, ...cards]);
+        setAddPlacePopupOpen(false);
       })
       .catch((err) => {
         console.log(`Невозможно сохранить карточку на сервере. Ошибка ${err}.`);
       })
       .finally(() => {
-        setAddPlacePopupOpen(false);
         setAddPlaceSubmitName('Создать');
       });
   };
