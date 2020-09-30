@@ -8,7 +8,7 @@ import {popupInputClass} from '../utils/constants';
 function EditAvatarPopup(props) {
   const currentUser = useContext(CurrentUserContext);
   const inputRef = useRef();
-  const errorMessage = useRef();
+  const [errorMessage, setErrorMessage] = useState('');
   const [errorClasses, setErrorClasses] = useState({input: '', error: '', });
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
@@ -20,7 +20,7 @@ function EditAvatarPopup(props) {
       inputRef.current.value = '';
       setIsSubmitDisabled(true);
     };
-    errorMessage.current.textContent = '';
+    setErrorMessage('');
     setErrorClasses({input: '', error: '', });
   }, [currentUser, props.isOpen]);
 
@@ -31,7 +31,7 @@ function EditAvatarPopup(props) {
 
   const handleInput = (e) => {
     const {validity, validationMessage} = e.target;
-    errorMessage.current.textContent = validationMessage;
+    setErrorMessage(validationMessage);
     setErrorClasses({
       input: !validity.valid ? popupInputClass.inputError : '', 
       error: !validity.valid ? popupInputClass.error : '', 
@@ -58,10 +58,12 @@ function EditAvatarPopup(props) {
           required
           onInput={handleInput}
         />
-        <span ref={errorMessage}
+        <span
           className={`popup__error ${errorClasses.error}`}  
           id="avatar-error"
-        />
+        >
+          {errorMessage}
+        </span>  
       </label>
     </PopupWithForm>
   );
