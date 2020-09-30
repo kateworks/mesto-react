@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 // Всплывающее окно просмотра фотографии
 
 function ImagePopup({ card, onClose }) {
-
   const [popupOpenClass, setPopupOpenClass] = useState('');
 
   const handleCloseClick = () => {

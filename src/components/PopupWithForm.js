@@ -1,28 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 function PopupWithForm(props) {
   const openClass = props.isOpen && 'popup_opened';
 
-  const handleCloseClick = () => {
-    props.onClose();
-  };
+  const handleCloseClick = props.onClose;
 
-  const handleOverlayClick = (evt) => {
-    if (evt.target === evt.currentTarget) handleCloseClick();
-  };
+  const handleEscPress = useCallback((evt) => {
+    if (evt.key === 'Escape') handleCloseClick();
+  }, [handleCloseClick]);
 
   useEffect(() => {
-    const handleEscPress = (evt) => {
-      if (evt.key === 'Escape') handleCloseClick();
-    };
-    
     if (props.isOpen) {
       document.addEventListener('keyup', handleEscPress);
     } else {
       document.removeEventListener('keyup', handleEscPress);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.isOpen]);
+  }, [props.isOpen, handleEscPress]);
+
+  const handleOverlayClick = (evt) => {
+    if (evt.target === evt.currentTarget) handleCloseClick();
+  };
 
   return(
     <div 
