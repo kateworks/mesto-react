@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/mesto-react/static/css/main.cc181360.css",
+    "main.js": "/mesto-react/static/js/main.78e44af3.js",
+    "static/media/photo-grid-peterhof.jpg": "/mesto-react/static/media/photo-grid-peterhof.8dd60d68d5fabf0926ac.jpg",
+    "static/media/photo-grid-peterhof-3.jpg": "/mesto-react/static/media/photo-grid-peterhof-3.d5249dfbe08df7ca2456.jpg",
+    "static/media/photo-grid-peterhof-1.jpg": "/mesto-react/static/media/photo-grid-peterhof-1.57bdf3c491d88d61c73e.jpg",
+    "static/media/photo-grid-aleksandria.jpg": "/mesto-react/static/media/photo-grid-aleksandria.504811f3f27842af5297.jpg",
+    "static/media/photo-grid-oranienbaum-1.jpg": "/mesto-react/static/media/photo-grid-oranienbaum-1.48084ea7e7f2848bd863.jpg",
+    "static/media/Inter-Bold.woff": "/mesto-react/static/media/Inter-Bold.5484e71af361cb6a2640.woff",
+    "static/media/Inter-Medium.woff": "/mesto-react/static/media/Inter-Medium.b1edb54c38f7aa304c6a.woff",
+    "static/media/Inter-Black.woff": "/mesto-react/static/media/Inter-Black.f1458e94120508eae8ce.woff",
+    "static/media/profile-avatar.jpg": "/mesto-react/static/media/profile-avatar.5024594e1ad1df883bb1.jpg",
+    "static/media/photo-grid-peterhof-4.jpg": "/mesto-react/static/media/photo-grid-peterhof-4.947a53795d8bd6bce399.jpg",
+    "static/media/Inter-Regular.woff": "/mesto-react/static/media/Inter-Regular.0c4d8533b66adf979dae.woff",
+    "static/media/Inter-Bold.woff2": "/mesto-react/static/media/Inter-Bold.00132b6d77bcfb8edf37.woff2",
+    "static/media/Inter-Medium.woff2": "/mesto-react/static/media/Inter-Medium.a76c8ae4d7c6753331a8.woff2",
+    "static/media/Inter-Black.woff2": "/mesto-react/static/media/Inter-Black.ca9c11d68040f25329bc.woff2",
+    "static/media/Inter-Regular.woff2": "/mesto-react/static/media/Inter-Regular.2e76ba93b7ec325dfa2d.woff2",
+    "static/media/header-logo.svg": "/mesto-react/static/media/header-logo.c2821b381952624d90e5c69c79bd1e58.svg",
+    "static/media/card-btn-like.svg": "/mesto-react/static/media/card-btn-like.df0c965524717a3fd8e9.svg",
+    "static/media/card-btn-delete.svg": "/mesto-react/static/media/card-btn-delete.e3c42771bff3aaa52f76.svg",
+    "index.html": "/mesto-react/index.html",
+    "static/media/card-btn-like-clicked.svg": "/mesto-react/static/media/card-btn-like-clicked.c58ebe257ef5baeb2c5e.svg",
+    "static/media/popup-btn-close.svg": "/mesto-react/static/media/popup-btn-close.b9c42c3d39897f658ef5.svg",
+    "static/media/profile-btn-edit.svg": "/mesto-react/static/media/profile-btn-edit.4db332203545ec1092f4.svg",
+    "static/media/profile-btn-add.svg": "/mesto-react/static/media/profile-btn-add.7e54c95f7cc586bd524f.svg",
+    "main.cc181360.css.map": "/mesto-react/static/css/main.cc181360.css.map",
+    "main.78e44af3.js.map": "/mesto-react/static/js/main.78e44af3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cc181360.css",
+    "static/js/main.78e44af3.js"
+  ]
+}
