@@ -1,12 +1,12 @@
-@import '../node_modules/modern-normalize/modern-normalize.css';
-@import '../assets/fonts/fonts.css';
+@import "../../node_modules/modern-normalize/modern-normalize.css";
+@import "../assets/fonts/fonts.css";
 
 :root {
-  --font-size-text: 16px;
+  --color-dark: #000;
+  --color-light: #fff;
 }
 
 html {
-  font-family: 'Inter', Arial, sans-serif;
   font-size: 100%;
 }
 
