@@ -11,6 +11,6 @@ export const EditButton = ({ className, onClick }) => (
     disabled={false}
     onClick={onClick}
   >
-    <EditIcon classname={styles.button__icon}/>
+    <EditIcon className={styles.button__icon}/>
   </Button>
 );
