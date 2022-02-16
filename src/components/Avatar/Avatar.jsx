@@ -1,5 +1,5 @@
 import React from "react";
-import { classNames } from "../../../utils/class-names";
+import { classNames } from "../../utils/class-names";
 import styles from "./Avatar.module.css";
 
 export const Avatar = ({ avatarUrl, className = "" }) => {

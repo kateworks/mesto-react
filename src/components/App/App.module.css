@@ -3,6 +3,7 @@
   min-width: 320px;
   min-height: 100vh;
   padding: 0;
+  padding-top: 28px;
   margin: 0;
   
   background-color: var(--color-dark);
@@ -17,8 +18,26 @@
   -moz-text-size-adjust: 100%;
 }
 
-@media screen and (min-width: 1280px) {
+.page * {
+  outline: 1px solid red;
+}
+
+.page__margin {
+  margin: 0;
+}
+
+@media screen and (min-width: 880px) {
   .page {
-    padding: 0 calc((100% - 1280px) / 2);
+    padding: 0 calc((100% - 880px) / 2);
+  }
+
+  .page__margin {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .page {
+    padding-top: 45px;
   }
 }
