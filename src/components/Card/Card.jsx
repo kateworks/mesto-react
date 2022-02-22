@@ -5,12 +5,12 @@ import styles from "./Card.module.css";
 
 export const Card = ({ card, onClick, onLike, onDelete, className }) => {
 
-  const handleClick = (card) => {
-    console.log(card.id);
+  const handleClick = () => {
+    console.log(card);
     onClick(card);
   };
 
-  const handleLike = (card) => {
+  const handleLike = () => {
     console.log("Like " + card.id);
     onLike(card);
   };

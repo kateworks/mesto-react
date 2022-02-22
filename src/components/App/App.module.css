@@ -23,6 +23,11 @@
   margin: 0;
 }
 
+.page__list {
+  padding: 0 19px;
+  padding-top: 36px;
+}
+
 @media screen and (min-width: 880px) {
   .page {
     padding: 0 calc((100% - 880px) / 2);
@@ -31,6 +36,10 @@
   .page__margin {
     margin: 0 auto;
   }
+
+  .page__list {
+    padding: 0;
+  }  
 }
 
 @media screen and (min-width: 768px) {
@@ -38,4 +47,8 @@
     padding-top: 45px;
     padding-bottom: 60px;
   }
+
+  .page__list {
+    padding-top: 50px;
+  }  
 }

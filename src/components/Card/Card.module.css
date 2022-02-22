@@ -1,5 +1,4 @@
 .card {
-  width: 282px;
   height: 361px;
   padding: 0;
   margin: 0;
@@ -10,6 +9,8 @@
   display: block;
   width: 100%;
   height: 282px;
+  object-fit: cover;
+  object-position: center;
   border-radius: 10px 10px 0 0;
 }
 
@@ -28,10 +29,13 @@
 }
 
 .card__title {
+  overflow: hidden;
   padding: 0;
   margin: 0;
   font-size: 24px;  
   font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card__like-group {
