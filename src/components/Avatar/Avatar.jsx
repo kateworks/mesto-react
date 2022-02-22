@@ -4,6 +4,6 @@ import styles from "./Avatar.module.css";
 
 export const Avatar = ({ avatarUrl, className = "" }) => {
   return (
-    <img src={avatarUrl} className={classNames(styles.avatar, className)}/>
+    <img src={avatarUrl} className={classNames(styles.avatar, className)} alt="User avatar"/>
   );
 };

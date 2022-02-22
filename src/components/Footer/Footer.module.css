@@ -1,0 +1,31 @@
+.footer {
+  width: 100%;
+  padding: 0;
+  padding-top: 48px;
+  margin: 0;
+}
+
+.footer__text {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1;  
+  color: var(--color-text-dark);  
+}
+
+.footer__link {
+  text-decoration: none;
+  font: inherit;
+  color: inherit;
+}
+
+@media screen and (min-width: 768px) {
+  .footer {
+    padding-top: 66px;
+  }
+
+  .footer__text {
+    font-size: 18px;
+  }
+}
