@@ -1,7 +1,7 @@
 import React from "react";
 import { classNames } from "../../../utils/class-names";
 import { Button } from "..";
-import { EditIcon } from "../icons";
+import { EditIcon } from "../../icons";
 import styles from "./EditButton.module.css";
 
 export const EditButton = ({ className, onClick }) => (

@@ -4,7 +4,8 @@
 :root {
   --color-dark: #000;
   --color-light: #fff;
-  --color-text-dark: #545454;
+  --color-text-dark: var(--color-dark);
+  --color-text-gray: #545454;
 }
 
 html {

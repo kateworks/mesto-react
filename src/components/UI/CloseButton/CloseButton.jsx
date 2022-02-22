@@ -1,7 +1,7 @@
 import React from "react";
 import { classNames } from "../../../utils/class-names";
 import { Button } from "..";
-import { CloseIcon } from "../icons";
+import { CloseIcon } from "../../icons";
 import styles from "./CloseButton.module.css";
 
 export const CloseButton = ({ className, onClick }) => (

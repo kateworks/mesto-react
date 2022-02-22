@@ -11,7 +11,7 @@
   font-size: 14px;
   font-weight: normal;
   line-height: 1;  
-  color: var(--color-text-dark);  
+  color: var(--color-text-gray);  
 }
 
 .footer__link {
