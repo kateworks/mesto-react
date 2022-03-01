@@ -1,5 +1,5 @@
 import React from "react";
-import { LikeButton } from "../ui";
+import { LikeButton } from "../UI";
 import { classNames } from "../../utils/class-names";
 import styles from "./Card.module.css";
 

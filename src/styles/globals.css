@@ -6,6 +6,7 @@
   --color-light: #fff;
   --color-text-dark: var(--color-dark);
   --color-text-gray: #545454;
+  --color-text-light: var(--color-light);
 }
 
 html {

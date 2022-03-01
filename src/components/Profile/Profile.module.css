@@ -1,0 +1,129 @@
+.profile {
+  width: 100%;
+  padding: 0 19px;
+  padding-top: 42px;
+  margin: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile__avatar {
+  background-color: var(--color-light);
+}
+
+.profile__info {
+  align-self: center;
+  max-width: calc(100% - 56px);
+  padding: 26px 0 36px 0;
+}
+
+.profile__name-container {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.profile__text {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.profile__name {
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 33px;
+}
+
+.profile__about {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 17px;
+}
+
+.profile__button {
+  margin: 0;
+}
+
+.profile__button_action_add {
+  width: 100%;
+}
+
+.profile__button_action_edit {
+  position: absolute;
+  top: 8px;
+  right: -28px;
+  z-index: 10;
+  width: 18px;
+  height: 18px;
+}
+
+@media screen and (min-width: 880px) {
+  .profile {
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .profile {
+    padding-top: 40px;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;  
+  }
+
+  .profile__avatar {
+    margin-right: 30px;
+  }
+
+  .profile__info {
+    flex: 1 1 auto;
+    max-width: unset;
+    padding: 0;
+  } 
+  
+  .profile__name-container {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-end;
+    text-align: left;
+  }
+
+  .profile__text {
+    text-align: left;
+  }
+
+  .profile__name {
+    height: 39px;
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 39px;
+    margin-right: 18px;
+  }
+
+  .profile__about {
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1;
+  }
+
+  .profile__button_action_add {
+    width: 150px;
+    margin-left: auto;
+  } 
+
+  .profile__button_action_edit {
+    position: static;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 3px;
+  }
+}
