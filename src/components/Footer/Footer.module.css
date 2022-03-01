@@ -18,10 +18,11 @@
   text-decoration: none;
   font: inherit;
   color: inherit;
+  transition: var(--transition_0_5);
 }
 
 .footer__link:hover {
-  color: #909090;
+  color: var(--color-text-light-gray);
 }
 
 @media screen and (min-width: 880px) {

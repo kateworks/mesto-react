@@ -6,7 +6,9 @@
   --color-light: #fff;
   --color-text-dark: var(--color-dark);
   --color-text-gray: #545454;
+  --color-text-light-gray: #909090;
   --color-text-light: var(--color-light);
+  --transition_0_5: all 0.5s ease-in-out;
 }
 
 html {
@@ -16,8 +18,4 @@ html {
 body {
   padding: 0;
   margin: 0;
-}
-
-.gradual-change {
-  transition: all 0.5s ease-in-out;
 }

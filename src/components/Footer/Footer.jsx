@@ -6,7 +6,7 @@ export const Footer = ({ className }) => (
   <footer className={classNames(styles.footer, className)}>
     <p className={styles.footer__text}>
       <a 
-        className={classNames(styles.footer__link, "gradual-change")} 
+        className={styles.footer__link} 
         href="mailto:pozhidaeva.e.a.work@gmail.com" 
         target="_blank" 
         rel="noopener noreferrer"
