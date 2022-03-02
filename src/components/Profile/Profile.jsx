@@ -5,14 +5,10 @@ import { classNames } from "../../utils/class-names";
 import styles from "./Profile.module.css";
 import avatarImage from "../../assets/images/avatar-image.svg";
 
-export const Profile = ({ className }) => {
+export const Profile = ({ onEditProfileClick, className }) => {
 
   const handleAddClick = () => {
     console.log('add card');
-  };
-
-  const handleEditClick = () => {
-    console.log('edit profile');
   };
 
   return (
@@ -24,7 +20,7 @@ export const Profile = ({ className }) => {
           <h1 className={classNames(styles.profile__text, styles.profile__name)}>User</h1>
           <EditButton 
             className={classNames(styles.profile__button, styles.profile__button_action_edit)}
-            onClick={handleEditClick}
+            onClick={onEditProfileClick}
           />
         </div>
         <p className={classNames(styles.profile__text, styles.profile__about)}>User Info</p>

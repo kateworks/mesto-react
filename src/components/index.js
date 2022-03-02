@@ -4,3 +4,7 @@ export { CardsList } from "./CardsList/CardsList";
 export { Footer } from "./Footer/Footer";
 export { Header } from "./Header/Header";
 export { Profile } from "./Profile/Profile";
+
+export { PopupWithForm } from "./PopupWithForm/PopupWithForm";
+export { EditProfilePopup } from "./EditProfilePopup/EditProfilePopup";
+
