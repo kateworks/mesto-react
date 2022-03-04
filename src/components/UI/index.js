@@ -3,7 +3,8 @@ export { AddButton } from "./AddButton/AddButton";
 export { CloseButton } from "./CloseButton/CloseButton";
 export { EditButton } from "./EditButton/EditButton";
 export { LikeButton } from "./LikeButton/LikeButton";
-export { SaveButton } from "./SaveButton/SaveButton";
+export { SubmitButton } from "./SubmitButton/SubmitButton";
 
 export { Input } from "./Input/Input";
+export { Form } from "./Form/Form";
 export { Overlay } from "./Overlay/Overlay";

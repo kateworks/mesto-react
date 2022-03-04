@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Header, Footer, CardsList, Profile, EditProfilePopup } from "..";
 import styles from "./App.module.css";
 import { initialCards } from "../../utils/cards-init";
 
 export const App = () => {
-  const [cards, setCards] = useState(initialCards);
+  const [cards] = useState(initialCards);
   const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
 
-  const handleEditProfileClick = () => {
+  const handleEditProfileClick = useCallback(() => {
     setIsEditProfileVisible(true);
-  };
+  }, []);
 
-  const handleEditProfileClose = () => {
+  const handleEditProfileClose = useCallback(() => {
     setIsEditProfileVisible(false);
-  };
+  }, []);
 
   const handleClick = (card) => {
     console.log(card);

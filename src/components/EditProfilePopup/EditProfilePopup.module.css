@@ -1,8 +1,4 @@
-.form {
-  margin: 0;
-}
-
-.form__button {
+.button-submit {
+  flex: none;
   width: 100%;
-  height: 46px;
 }

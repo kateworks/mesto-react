@@ -1,15 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { PopupWithForm } from "..";
-import { Input, SaveButton } from "../UI";
+import { Input, SubmitButton } from "../UI";
 import styles from "./EditProfilePopup.module.css";
 
 const EditProfile = ({ isVisible, onSubmit, onClose }) => {
 
   const form = { name: "form-profile", title: "Редактировать профиль"};
+  const submitButton = <SubmitButton className={styles["button-submit"]}>Сохранить</SubmitButton>;
 
   return (
-    <PopupWithForm isVisible={isVisible} form={form} onSubmit={onSubmit} onClose={onClose}>
+    <PopupWithForm 
+      isVisible={isVisible} 
+      onSubmit={onSubmit} 
+      submitButton={submitButton} 
+      onClose={onClose} 
+      form={form}
+    >
       <Input 
         name="profile-name"
         maxLength="40" minLength="2" 
@@ -22,9 +29,7 @@ const EditProfile = ({ isVisible, onSubmit, onClose }) => {
         maxLength="200" minLength="2" 
         placeholder="О себе"
         required
-      />
-
-      <SaveButton text="Сохранить" onClick={onSubmit} className={styles.form__button}/>
+      />      
     </PopupWithForm>
   );
 };

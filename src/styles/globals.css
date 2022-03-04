@@ -4,9 +4,10 @@
 :root {
   --color-dark: #000;
   --color-light: #fff;
+  --color-light-gray: #909090;
   --color-text-dark: var(--color-dark);
   --color-text-gray: #545454;
-  --color-text-light-gray: #909090;
+  --color-text-light-gray: var(--color-text-gray);
   --color-text-light: var(--color-light);
   --transition_0_5: all 0.5s ease-in-out;
 }
