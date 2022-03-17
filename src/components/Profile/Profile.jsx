@@ -3,13 +3,10 @@ import { Avatar } from "..";
 import { AddButton, EditButton } from "../UI";
 import { classNames } from "../../utils/class-names";
 import styles from "./Profile.module.css";
-import avatarImage from "../../assets/images/avatar-image.svg";
+import avatarImage from "../../assets/images/user-avatar.svg";
 
-export const Profile = ({ onEditProfileClick, className }) => {
-
-  const handleAddClick = () => {
-    console.log('add card');
-  };
+export const Profile = React.memo(({ onEditProfileClick, onNewPlaceClick, className }) => {
+  console.log('PROFILE');
 
   return (
     <section className={classNames(styles.profile, className)}>
@@ -17,19 +14,25 @@ export const Profile = ({ onEditProfileClick, className }) => {
 
       <div className={styles.profile__info}>
         <div className={styles["profile__name-container"]}>
-          <h1 className={classNames(styles.profile__text, styles.profile__name)}>User</h1>
+          <h1 className={classNames(styles.profile__text, styles.profile__name)}>
+            Имя пользователя
+          </h1>
+
           <EditButton 
             className={classNames(styles.profile__button, styles.profile__button_action_edit)}
             onClick={onEditProfileClick}
           />
         </div>
-        <p className={classNames(styles.profile__text, styles.profile__about)}>User Info</p>
+
+        <p className={classNames(styles.profile__text, styles.profile__about)}>
+          Информация о пользователе
+        </p>
       </div>
 
       <AddButton 
         className={classNames(styles.profile__button, styles.profile__button_action_add)} 
-        onClick={handleAddClick}
+        onClick={onNewPlaceClick}
       />
     </section>
   );
-};
+});

@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from "react";
-import { Header, Footer, CardsList, Profile, EditProfilePopup } from "..";
+import { Header, Footer, CardsList, Profile } from "..";
+import { EditProfilePopup, NewPlacePopup } from "..";
 import styles from "./App.module.css";
 import { initialCards } from "../../utils/cards-init";
 
 export const App = () => {
   const [cards] = useState(initialCards);
   const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
+  const [isNewPlaceVisible, setIsNewPlaceVisible] = useState(false);
 
   const handleEditProfileClick = useCallback(() => {
     setIsEditProfileVisible(true);
@@ -13,6 +15,14 @@ export const App = () => {
 
   const handleEditProfileClose = useCallback(() => {
     setIsEditProfileVisible(false);
+  }, []);
+
+  const handleNewPlaceClick = useCallback(() => {
+    setIsNewPlaceVisible(true);
+  }, []);
+
+  const handleNewPlaceClose = useCallback(() => {
+    setIsNewPlaceVisible(false);
   }, []);
 
   const handleClick = (card) => {
@@ -38,6 +48,7 @@ export const App = () => {
       <Footer className={styles.page__margin} />
 
       <EditProfilePopup isVisible={isEditProfileVisible} onClose={handleEditProfileClose}/>
+      <EditProfilePopup isVisible={isNewPlaceVisible} onClose={handleNewPlaceClose}/>
     </div>
   );
 };
