@@ -7,4 +7,4 @@ export { Profile } from "./Profile/Profile";
 
 export { PopupWithForm } from "./PopupWithForm/PopupWithForm";
 export { EditProfilePopup } from "./EditProfilePopup/EditProfilePopup";
-export { NewPlacePopup } from "./NewPlacePopup/NewPlacePopup";
+export { AddPlacePopup } from "./AddPlacePopup/AddPlacePopup";

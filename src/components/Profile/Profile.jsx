@@ -5,7 +5,7 @@ import { classNames } from "../../utils/class-names";
 import styles from "./Profile.module.css";
 import avatarImage from "../../assets/images/user-avatar.svg";
 
-export const Profile = React.memo(({ onEditProfileClick, onNewPlaceClick, className }) => {
+export const Profile = React.memo(({ onEditProfileClick, onAddPlaceClick, className }) => {
   console.log('PROFILE');
 
   return (
@@ -31,7 +31,7 @@ export const Profile = React.memo(({ onEditProfileClick, onNewPlaceClick, classN
 
       <AddButton 
         className={classNames(styles.profile__button, styles.profile__button_action_add)} 
-        onClick={onNewPlaceClick}
+        onClick={onAddPlaceClick}
       />
     </section>
   );

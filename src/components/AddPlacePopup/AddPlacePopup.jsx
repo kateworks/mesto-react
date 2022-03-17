@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { PopupWithForm } from "..";
 import { Input, SubmitButton } from "../UI";
-import styles from "./NewPlacePopup.module.css";
+import styles from "./AddPlacePopup.module.css";
 
-const NewPlace = ({ isVisible, onSubmit, onClose }) => {
+const AddPlace = ({ isVisible, onSubmit, onClose }) => {
 
   const form = { name: "form-place", title: "Новое место"};
   const submitButton = <SubmitButton className={styles["button-submit"]}>Создать</SubmitButton>;
@@ -19,14 +19,15 @@ const NewPlace = ({ isVisible, onSubmit, onClose }) => {
     >
       <Input 
         name="place-name"
-        maxLength="40" minLength="2" 
+        maxLength="30" minLength="1" 
         placeholder="Название"
         required
       />
 
       <Input 
-        name="place-link" 
-        maxLength="200" minLength="2" 
+        type="url"
+        name="place-link"
+        pattern="https?://.+"  
         placeholder="Ссылка на картинку"
         required
       />      
@@ -35,10 +36,10 @@ const NewPlace = ({ isVisible, onSubmit, onClose }) => {
 };
 
 
-export const NewPlacePopup = ({ isVisible, onSubmit, onClose }) => (
+export const AddPlacePopup = ({ isVisible, onSubmit, onClose }) => (
   <>
     { ReactDOM.createPortal(
-        <NewPlace isVisible={isVisible} onSubmit={onSubmit} onClose={onClose} />,
+        <AddPlace isVisible={isVisible} onSubmit={onSubmit} onClose={onClose} />,
         document.getElementById("modal")
     )}
   </>

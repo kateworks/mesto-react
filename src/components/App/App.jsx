@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { Header, Footer, CardsList, Profile } from "..";
-import { EditProfilePopup, NewPlacePopup } from "..";
+import { EditProfilePopup, AddPlacePopup } from "..";
 import styles from "./App.module.css";
 import { initialCards } from "../../utils/cards-init";
 
 export const App = () => {
   const [cards] = useState(initialCards);
   const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
-  const [isNewPlaceVisible, setIsNewPlaceVisible] = useState(false);
+  const [isAddPlaceVisible, setIsAddPlaceVisible] = useState(false);
 
   const handleEditProfileClick = useCallback(() => {
     setIsEditProfileVisible(true);
@@ -17,12 +17,12 @@ export const App = () => {
     setIsEditProfileVisible(false);
   }, []);
 
-  const handleNewPlaceClick = useCallback(() => {
-    setIsNewPlaceVisible(true);
+  const handleAddPlaceClick = useCallback(() => {
+    setIsAddPlaceVisible(true);
   }, []);
 
-  const handleNewPlaceClose = useCallback(() => {
-    setIsNewPlaceVisible(false);
+  const handleAddPlaceClose = useCallback(() => {
+    setIsAddPlaceVisible(false);
   }, []);
 
   const handleClick = (card) => {
@@ -37,7 +37,10 @@ export const App = () => {
     <div className={styles.page}>
       <Header className={styles.page__margin} />
       <main>
-        <Profile onEditProfileClick={handleEditProfileClick}/>
+        <Profile 
+          onEditProfileClick={handleEditProfileClick} 
+          onAddPlaceClick={handleAddPlaceClick}
+        />
         <CardsList 
           cards={cards}
           className={styles.page__list}
@@ -48,7 +51,7 @@ export const App = () => {
       <Footer className={styles.page__margin} />
 
       <EditProfilePopup isVisible={isEditProfileVisible} onClose={handleEditProfileClose}/>
-      <EditProfilePopup isVisible={isNewPlaceVisible} onClose={handleNewPlaceClose}/>
+      <AddPlacePopup isVisible={isAddPlaceVisible} onClose={handleAddPlaceClose}/>
     </div>
   );
 };
