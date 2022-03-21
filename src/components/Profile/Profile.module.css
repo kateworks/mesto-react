@@ -9,8 +9,29 @@
   align-items: center;
 }
 
+.profile__avatar-group {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  z-index: 1;
+}
+
 .profile__avatar {
+  position: relative;
+  z-index: 2;
   background-color: var(--color-light);
+}
+
+.profile__avatar-button {
+  position: absolute;
+  width: 124px;
+  height: 124px;
+
+  top: -2px;
+  left: -2px;
+  z-index: 3;
+
+  border-radius: 50%;
 }
 
 .profile__info {
@@ -83,7 +104,7 @@
     align-items: center;  
   }
 
-  .profile__avatar {
+  .profile__avatar-group {
     margin-right: 30px;
   }
 

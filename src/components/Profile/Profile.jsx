@@ -1,16 +1,23 @@
 import React from "react";
 import { Avatar } from "..";
-import { AddButton, EditButton } from "../UI";
+import { AddButton, EditButton, EditAvatarButton } from "../UI";
 import { classNames } from "../../utils/class-names";
 import styles from "./Profile.module.css";
 import avatarImage from "../../assets/images/user-avatar.svg";
 
-export const Profile = React.memo(({ onEditProfileClick, onAddPlaceClick, className }) => {
+export const Profile = React.memo(({ onEditProfileClick, onAddPlaceClick, onEditAvatarClick, className }) => {
   console.log('PROFILE');
 
   return (
     <section className={classNames(styles.profile, className)}>
-      <Avatar avatarUrl={avatarImage} className={styles.profile__avatar}/>
+
+      <div className={styles["profile__avatar-group"]}>
+        <Avatar avatarUrl={avatarImage} className={styles.profile__avatar}/>
+        <EditAvatarButton 
+          className={styles["profile__avatar-button"]}
+          onClick={onEditAvatarClick}
+        />        
+      </div>
 
       <div className={styles.profile__info}>
         <div className={styles["profile__name-container"]}>

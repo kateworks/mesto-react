@@ -4,6 +4,11 @@ import styles from "./Avatar.module.css";
 
 export const Avatar = ({ avatarUrl, className = "" }) => {
   return (
-    <img src={avatarUrl} className={classNames(styles.avatar, className)} alt="User avatar"/>
+    <img 
+      src={avatarUrl} 
+      className={classNames(styles.avatar, className)} 
+      alt="Аватар профиля" 
+      title="Изменить аватар профиля"
+    />
   );
 };

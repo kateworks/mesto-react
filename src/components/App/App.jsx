@@ -1,28 +1,39 @@
 import React, { useState, useCallback } from "react";
 import { Header, Footer, CardsList, Profile } from "..";
-import { EditProfilePopup, AddPlacePopup } from "..";
+import { EditProfilePopup, AddPlacePopup, EditAvatarPopup  } from "..";
 import styles from "./App.module.css";
 import { initialCards } from "../../utils/cards-init";
 
 export const App = () => {
   const [cards] = useState(initialCards);
-  const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
-  const [isAddPlaceVisible, setIsAddPlaceVisible] = useState(false);
+  const [arePopupsVisible, setArePopupsVisible] = useState({
+    "edit-profile": false,
+    "add-place": false,
+    "edit-avatar": false,
+  });
 
   const handleEditProfileClick = useCallback(() => {
-    setIsEditProfileVisible(true);
+    setArePopupsVisible(value => ({ ...value, "edit-profile": true }));
   }, []);
 
   const handleEditProfileClose = useCallback(() => {
-    setIsEditProfileVisible(false);
+    setArePopupsVisible(value => ({ ...value, "edit-profile": false }));
   }, []);
 
   const handleAddPlaceClick = useCallback(() => {
-    setIsAddPlaceVisible(true);
+    setArePopupsVisible(value => ({ ...value, "add-place": true }));
   }, []);
 
   const handleAddPlaceClose = useCallback(() => {
-    setIsAddPlaceVisible(false);
+    setArePopupsVisible(value => ({ ...value, "add-place": false }));
+  }, []);
+
+  const handleEditAvatarClick = useCallback(() => {
+    setArePopupsVisible(value => ({ ...value, "edit-avatar": true }));
+  }, []);
+
+  const handleEditAvatarClose = useCallback(() => {
+    setArePopupsVisible(value => ({ ...value, "edit-avatar": false }));
   }, []);
 
   const handleClick = (card) => {
@@ -40,6 +51,7 @@ export const App = () => {
         <Profile 
           onEditProfileClick={handleEditProfileClick} 
           onAddPlaceClick={handleAddPlaceClick}
+          onEditAvatarClick={handleEditAvatarClick}
         />
         <CardsList 
           cards={cards}
@@ -50,8 +62,9 @@ export const App = () => {
       </main>
       <Footer className={styles.page__margin} />
 
-      <EditProfilePopup isVisible={isEditProfileVisible} onClose={handleEditProfileClose}/>
-      <AddPlacePopup isVisible={isAddPlaceVisible} onClose={handleAddPlaceClose}/>
+      <EditProfilePopup isVisible={arePopupsVisible["edit-profile"]} onClose={handleEditProfileClose}/>
+      <AddPlacePopup isVisible={arePopupsVisible["add-place"]} onClose={handleAddPlaceClose}/>
+      <EditAvatarPopup isVisible={arePopupsVisible["edit-avatar"]} onClose={handleEditAvatarClose}/>
     </div>
   );
 };

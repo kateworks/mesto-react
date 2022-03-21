@@ -2,6 +2,7 @@ export { Button } from "./Button/Button";
 export { AddButton } from "./AddButton/AddButton";
 export { CloseButton } from "./CloseButton/CloseButton";
 export { EditButton } from "./EditButton/EditButton";
+export { EditAvatarButton } from "./EditAvatarButton/EditAvatarButton";
 export { LikeButton } from "./LikeButton/LikeButton";
 export { SubmitButton } from "./SubmitButton/SubmitButton";
 

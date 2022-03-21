@@ -30,10 +30,11 @@ export const PopupWithForm = ({ isVisible, onSubmit, submitButton, onClose, form
   }, [isVisible, handleEscPress]);
 
   const overlayClass = classNames(styles.overlay, isVisible && styles.overlay_visible);
+  const popupClass = classNames(styles.popup, className);
 
   return (
     <Overlay className={overlayClass} onClick={handleOverlayClick}>
-      <div className={styles.popup}>
+      <div className={popupClass}>
         <CloseButton className={styles.popup__button} onClick={onClose}/>
         <Form form={form} onSubmit={onSubmit} submitButton={submitButton} className={styles.popup__form}>
           {children}
