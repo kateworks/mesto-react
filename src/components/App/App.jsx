@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Header, Footer, CardsList, Profile } from "..";
-import { EditProfilePopup, AddPlacePopup, EditAvatarPopup  } from "..";
+import { EditProfilePopup, AddPlacePopup, EditAvatarPopup, ConfirmPopup  } from "..";
 import styles from "./App.module.css";
 import { initialCards } from "../../utils/cards-init";
 
@@ -65,6 +65,7 @@ export const App = () => {
       <EditProfilePopup isVisible={arePopupsVisible["edit-profile"]} onClose={handleEditProfileClose}/>
       <AddPlacePopup isVisible={arePopupsVisible["add-place"]} onClose={handleAddPlaceClose}/>
       <EditAvatarPopup isVisible={arePopupsVisible["edit-avatar"]} onClose={handleEditAvatarClose}/>
+      <ConfirmPopup isVisible={false}/>
     </div>
   );
 };

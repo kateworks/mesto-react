@@ -9,3 +9,4 @@ export { PopupWithForm } from "./PopupWithForm/PopupWithForm";
 export { EditProfilePopup } from "./EditProfilePopup/EditProfilePopup";
 export { AddPlacePopup } from "./AddPlacePopup/AddPlacePopup";
 export { EditAvatarPopup } from "./EditAvatarPopup/EditAvatarPopup";
+export { ConfirmPopup } from "./ConfirmPopup/ConfirmPopup";
