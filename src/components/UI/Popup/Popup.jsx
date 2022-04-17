@@ -3,7 +3,7 @@ import { Overlay, CloseButton } from "..";
 import { classNames } from "../../../utils/class-names";
 import styles from "./Popup.module.css";
 
-export const Popup = ({ isVisible, onClose, children, className }) => {
+export const Popup = ({ isVisible, onClose, children, className, overlay="" }) => {
 
   const handleEscPress = useCallback((event) => {
     if (event.key === 'Escape') onClose();
@@ -29,7 +29,7 @@ export const Popup = ({ isVisible, onClose, children, className }) => {
     };
   }, [isVisible, handleEscPress]);
 
-  const overlayClass = classNames(styles.popup, isVisible && styles.popup_visible);
+  const overlayClass = classNames(styles.popup, overlay, isVisible && styles.popup_visible);
 
   return (
     <Overlay className={overlayClass} onClick={handleOverlayClick}>

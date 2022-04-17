@@ -10,3 +10,4 @@ export { EditProfilePopup } from "./EditProfilePopup/EditProfilePopup";
 export { AddPlacePopup } from "./AddPlacePopup/AddPlacePopup";
 export { EditAvatarPopup } from "./EditAvatarPopup/EditAvatarPopup";
 export { ConfirmPopup } from "./ConfirmPopup/ConfirmPopup";
+export { ImagePopup } from "./ImagePopup/ImagePopup";

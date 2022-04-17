@@ -1,15 +1,17 @@
 import React, { useState, useCallback } from "react";
 import { Header, Footer, CardsList, Profile } from "..";
-import { EditProfilePopup, AddPlacePopup, EditAvatarPopup, ConfirmPopup  } from "..";
+import { EditProfilePopup, AddPlacePopup, EditAvatarPopup, ConfirmPopup, ImagePopup  } from "..";
 import styles from "./App.module.css";
 import { initialCards } from "../../utils/cards-init";
 
 export const App = () => {
   const [cards] = useState(initialCards);
+  const [selectedCard, setSelectedCard] = useState(null);  
   const [arePopupsVisible, setArePopupsVisible] = useState({
     "edit-profile": false,
     "add-place": false,
     "edit-avatar": false,
+    "view-image" : false,
   });
 
   const handleEditProfileClick = useCallback(() => {
@@ -37,8 +39,14 @@ export const App = () => {
   }, []);
 
   const handleClick = (card) => {
-    console.log("click card ", card.id);
+    setSelectedCard(card);
+    setArePopupsVisible(value => ({ ...value, "view-image": true }));
   };
+
+  const handleImagePopupClose = useCallback(() => {
+    setArePopupsVisible(value => ({ ...value, "view-image": false }));
+    // setSelectedCard(null);
+  }, []);
 
   const handleLike = (card) => {
     console.log(card);
@@ -66,6 +74,12 @@ export const App = () => {
       <AddPlacePopup isVisible={arePopupsVisible["add-place"]} onClose={handleAddPlaceClose}/>
       <EditAvatarPopup isVisible={arePopupsVisible["edit-avatar"]} onClose={handleEditAvatarClose}/>
       <ConfirmPopup isVisible={false}/>
+      
+      <ImagePopup 
+        card={selectedCard}
+        isVisible={arePopupsVisible["view-image"]} 
+        onClose={handleImagePopupClose} 
+      />
     </div>
   );
 };
