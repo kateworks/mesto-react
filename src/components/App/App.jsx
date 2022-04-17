@@ -37,7 +37,7 @@ export const App = () => {
   }, []);
 
   const handleClick = (card) => {
-    console.log(card);
+    console.log("click card ", card.id);
   };
 
   const handleLike = (card) => {

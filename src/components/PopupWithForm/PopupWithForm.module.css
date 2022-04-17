@@ -1,19 +1,3 @@
-.overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 19px;
-
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0.5s linear, opacity 0.5s linear;  
-}
-
-.overlay_visible {
-  visibility: visible;
-  opacity: 1;
-}
-
 .popup {
   position: relative;
   width: 100%;
@@ -25,14 +9,6 @@
   font-family: "Inter", Arial, sans-serif;
 }
 
-.popup__button {
-  position: absolute;
-  top: -36px;
-  right: 0;
-  width: 20px;
-  height: 20px;
-}
-
 .popup__form {
   height: 100%;
 }
@@ -41,11 +17,4 @@
   .popup {
     height: min(330px, calc(100vh - 100px));
   }
-
-  .popup__button {
-    top: -40px;
-    right: -40px;
-    width: 32px;
-    height: 32px;
-  }  
 }

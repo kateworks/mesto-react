@@ -5,6 +5,7 @@ import { Input, SubmitButton } from "../UI";
 import styles from "./EditProfilePopup.module.css";
 
 const EditProfile = ({ isVisible, onSubmit, onClose }) => {
+  console.log('EDIT PROFILE POPUP');
 
   const form = { name: "form-profile", title: "Редактировать профиль"};
   const submitButton = <SubmitButton className={styles["button-submit"]}>Сохранить</SubmitButton>;
@@ -35,12 +36,12 @@ const EditProfile = ({ isVisible, onSubmit, onClose }) => {
 };
 
 
-export const EditProfilePopup = ({ isVisible, onSubmit, onClose }) => (
+export const EditProfilePopup = React.memo(({ isVisible, onSubmit, onClose }) => (
   <>
     { ReactDOM.createPortal(
         <EditProfile isVisible={isVisible} onSubmit={onSubmit} onClose={onClose} />,
         document.getElementById("modal")
     )}
   </>
-);
+));
 

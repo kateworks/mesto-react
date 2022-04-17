@@ -4,7 +4,7 @@ export const initialCards = [
   { 
     title: "Алтай", 
     link: "https://wikiway.com/upload/hl-photo/a0e/621/altayskie-gory_137.jpg", 
-    likes: [], 
+    likes: [1, 2], 
     owner: 0, 
     id: 0 
   },

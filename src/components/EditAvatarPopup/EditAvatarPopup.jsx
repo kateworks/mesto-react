@@ -5,6 +5,7 @@ import { Input, SubmitButton } from "../UI";
 import styles from "./EditAvatarPopup.module.css";
 
 const EditAvatar = ({ isVisible, onSubmit, onClose }) => {
+  console.log('EDIT AVATAR POPUP');
 
   const form = { name: "form-avatar", title: "Обновить аватар"};
   const submitButton = <SubmitButton className={styles.popup__button}>Сохранить</SubmitButton>;
@@ -30,11 +31,11 @@ const EditAvatar = ({ isVisible, onSubmit, onClose }) => {
 };
 
 
-export const EditAvatarPopup = ({ isVisible, onSubmit, onClose }) => (
+export const EditAvatarPopup = React.memo(({ isVisible, onSubmit, onClose }) => (
   <>
     { ReactDOM.createPortal(
         <EditAvatar isVisible={isVisible} onSubmit={onSubmit} onClose={onClose} />,
         document.getElementById("modal")
     )}
   </>
-);
+));

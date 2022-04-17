@@ -5,6 +5,7 @@ import { Input, SubmitButton } from "../UI";
 import styles from "./AddPlacePopup.module.css";
 
 const AddPlace = ({ isVisible, onSubmit, onClose }) => {
+  console.log('ADD PLACE POPUP');
 
   const form = { name: "form-place", title: "Новое место"};
   const submitButton = <SubmitButton className={styles["button-submit"]}>Создать</SubmitButton>;
@@ -36,11 +37,11 @@ const AddPlace = ({ isVisible, onSubmit, onClose }) => {
 };
 
 
-export const AddPlacePopup = ({ isVisible, onSubmit, onClose }) => (
+export const AddPlacePopup = React.memo(({ isVisible, onSubmit, onClose }) => (
   <>
     { ReactDOM.createPortal(
         <AddPlace isVisible={isVisible} onSubmit={onSubmit} onClose={onClose} />,
         document.getElementById("modal")
     )}
   </>
-);
+));

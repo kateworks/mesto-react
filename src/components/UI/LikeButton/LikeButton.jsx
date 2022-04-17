@@ -7,7 +7,9 @@ import styles from "./LikeButton.module.css";
 export const LikeButton = ({ isLiked, className, onClick, ...props }) => {
 
   const renderIcon = () => ( 
-    isLiked ? <LikeIconActive className={styles.button__icon} /> : <LikeIcon className={styles.button__icon} />
+    isLiked ? 
+      <LikeIconActive color={"red"} className={styles.button__icon} /> : 
+      <LikeIcon className={styles.button__icon} />
   );
 
   return (

@@ -9,3 +9,4 @@ export { SubmitButton } from "./SubmitButton/SubmitButton";
 export { Input } from "./Input/Input";
 export { Form } from "./Form/Form";
 export { Overlay } from "./Overlay/Overlay";
+export { Popup } from "./Popup/Popup";
