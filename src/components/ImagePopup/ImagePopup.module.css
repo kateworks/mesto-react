@@ -1,0 +1,42 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.popup {
+  position: relative;
+  max-width: 75vw;
+  height: 75vh;
+
+  padding: 0;
+  margin: 0;
+  outline: none;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+.popup__figure {
+  height: 100%;
+
+  padding: 0;
+  margin: 0;
+}
+
+.popup__image {
+  max-width: 100%;
+  height: calc(100% - 15px);
+  object-fit: cover;
+  
+  padding: 0;
+  margin: 0;
+}
+
+.popup__title {
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 15px;
+  text-align: left;
+  color: var(--color-light);
+
+  padding: 0;
+  padding-top: 10px;
+  margin: 0;
+}

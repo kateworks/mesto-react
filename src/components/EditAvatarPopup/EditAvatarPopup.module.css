@@ -1,0 +1,8 @@
+.popup {
+  height: 272px;
+}
+
+.popup__button {
+  flex: none;
+  width: 100%;
+}

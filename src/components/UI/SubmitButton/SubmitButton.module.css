@@ -1,0 +1,30 @@
+.button {
+  display: block;
+  height: 46px;
+  background-color: var(--color-dark);
+  border-radius: 2px;  
+}
+
+.button:enabled:hover {
+  opacity: 0.8;
+}
+
+.button__text {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 17px;
+  text-align: center;  
+  color: var(--color-light);
+  opacity: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .button {
+    height: 50px;
+  }
+
+  .button__text {
+    font-size: 18px;
+    line-height: 22px;
+  }    
+}

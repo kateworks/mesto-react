@@ -1,0 +1,13 @@
+.button {
+  width: 32px;
+  height: 32px;
+}
+
+.button:enabled:hover {
+  opacity: 0.6;
+}
+
+.button__icon {
+  width: 100%;
+  height: 100%;
+}

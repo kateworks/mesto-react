@@ -1,0 +1,35 @@
+@import "../../node_modules/modern-normalize/modern-normalize.css";
+@import "../assets/fonts/fonts.css";
+
+:root {
+  --color-dark: #000;
+  --color-light: #fff;
+  --color-light-gray: #909090;
+  --color-text-dark: var(--color-dark);
+  --color-text-gray: #545454;
+  --color-text-light-gray: var(--color-text-gray);
+  --color-text-light: var(--color-light);
+  --transition_0_5: all 0.5s ease;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+}
+
+.body-no-scroll {
+  height: 100vh;
+  overflow-y: hidden;
+}
