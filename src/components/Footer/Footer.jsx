@@ -7,11 +7,11 @@ export const Footer = ({ className }) => (
     <p className={styles.footer__text}>
       <a 
         className={styles.footer__link} 
-        href="mailto:pozhidaeva.e.a.work@gmail.com" 
+        href="mailto:kateworks2003@gmail.com" 
         target="_blank" 
         rel="noopener noreferrer"
       >
-        © 2022 Ekaterina Pozhidaeva
+        ©2020-2023 Ekaterina Pozhidaeva
       </a>      
     </p>
   </footer>
